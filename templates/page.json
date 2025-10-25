@@ -1,0 +1,46 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "heading_color": "#000000",
+        "heading_size": 40,
+        "heading_mob_size": 28,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "track_your_order_z3PqcW": {
+      "type": "track-your-order",
+      "settings": {
+        "heading": "Track your order",
+        "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas imperdiet nisi eget gravida vestibulum. Ut rutrum facilisis leo, ac vulputate elit consectetur ut. Morbi rhoncus mauris ligula, et pulvinar nulla rhoncus sit amet. Pellentesque a quam id odio malesuada auctor.</p>",
+        "button_label": "Track",
+        "heading_size": 40,
+        "heading_mob_size": 28,
+        "body_font_size": 16,
+        "heading_color": "#000000",
+        "bolded_heading_color": "#000000",
+        "body_color": "#000000",
+        "bolded_body_color": "#000000",
+        "color_scheme2": "accent-1",
+        "color_scheme": "accent-2",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    }
+  },
+  "order": [
+    "main",
+    "track_your_order_z3PqcW"
+  ]
+}

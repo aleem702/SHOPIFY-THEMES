@@ -1,0 +1,56 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "settings": {
+        "heading_color": "#000000",
+        "heading_size": 40,
+        "heading_mob_size": 28,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "animated_stars_rLbxXe": {
+      "type": "animated_stars",
+      "settings": {
+        "animation_divider_size": "80px",
+        "star_animation_color": "#ffffff",
+        "star_animation_bg_color_scheme": "accent-2",
+        "star_animation_intensity": "normal",
+        "star_animation_speed": 3,
+        "star_animation_flip_y": false,
+        "star_animation_flip_x": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "animated_stars_m7dV89": {
+      "type": "animated_stars",
+      "settings": {
+        "animation_divider_size": "80px",
+        "star_animation_color": "#ffffff",
+        "star_animation_bg_color_scheme": "accent-2",
+        "star_animation_intensity": "normal",
+        "star_animation_speed": 3,
+        "star_animation_flip_y": false,
+        "star_animation_flip_x": false,
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "animated_stars_rLbxXe",
+    "main",
+    "animated_stars_m7dV89"
+  ]
+}

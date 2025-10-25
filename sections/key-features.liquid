@@ -1,0 +1,592 @@
+{%- liquid
+   assign global_heading_size = settings.enable_global_heading_font_size
+   assign global_body_size = settings.enable_global_body_font_size
+   assign global_color = settings.enable_global_color
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --heading-size: {% if global_heading_size %}var(--font-heading-size){% else %}{{ section.settings.heading_size }}px{% endif %};
+    --heading-mob-size: {% if global_heading_size %}var(--font-heading-mob-size){% else %}{{ section.settings.heading_mob_size }}px{% endif %};
+    --body-size: {% if global_body_size %}var(--global-body-text-font-size){% else %}{{ section.settings.body_size }}px{% endif %};
+    --heading-color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ section.settings.heading_color }}{% endif %};
+    --body-color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ section.settings.body_color }}{% endif %};
+    --icon-color: {{ section.settings.icon_color }};
+    --heading-highlight-color: {{ section.settings.heading_lighlighted_color }};
+    --body-highlight-color: {{ section.settings.body_highlighted_color }};
+  }
+
+  .section__key_features {
+    padding: 5px 0;
+  }
+
+  .section__key_features .main-key-feature {
+    padding-top: var(--section-padding-top);
+    padding-bottom: var(--section-padding-bottom);
+  }
+
+  .section__key_features .title {
+    font-size: var(--heading-size);
+    line-height: calc(var(--heading-size) + 8px);
+    color: var(--heading-color);
+    --color-highlighted-color: var(--heading-highlight-color);
+  }
+
+  .section__key_features .title strong {
+    {%- if section.settings.heading_use_gradient -%}
+      background: {% if section.settings.heading_gradient_color != blank %}{{ section.settings.heading_gradient_color }}{% else %}var(--gradient-base-background-1){% endif %};
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    {%- endif -%}
+  }
+
+  .section__key_features .text-col,
+  .section__key_features .text-col p {
+    font-size: var(--body-size);
+    line-height: calc(var(--body-size) + 8px);
+    color: var(--body-color);
+    --color-highlighted-color: var(--body-highlight-color);
+    font-weight: 500;
+    margin: 0;
+    overflow-wrap: anywhere;
+    word-break: break-all;
+  }
+
+  .section__key_features .list-image span {
+    color: var(--icon-color);
+  }
+
+  .section__key_features .center-image img {
+    border-radius: 20px;
+    height: auto;
+    overflow: hidden;
+  }
+
+  
+  @media screen and (max-width: 750px) {
+    .section__key_features .main-key-feature {
+      padding-top: calc(var(--section-padding-top) * 0.75);
+      padding-bottom: calc(var(--section-padding-bottom) * 0.75);
+    }
+  }
+
+  @media screen and (max-width: 786px) {
+    .section__key_features .title {
+      font-size: var(--heading-mob-size) !important;
+      line-height: calc(var(--heading-mob-size) + 8px) !important;
+    }
+  }
+{% endstyle %}
+
+<div class="section__key_features color-{{ section.settings.color_scheme }}">
+  <div class="main-key-feature page-width">
+    <div class="main-key-heading">
+      <h2 class="title">{{ section.settings.main_headings }}</h2>
+    </div>
+    
+    <div class="main-row">
+      <div class="text-col">
+        <ul>
+          {%- for i in (1..2) -%}
+            {%- liquid
+              assign text_key = 'list_text' | append: i
+              assign icon_key = 'icon_list-img' | append: i
+              assign custom_icon_key = 'custom_icon_list-img' | append: i
+              assign layout_key = 'list_layout_' | append: i
+              assign icon_size_key = 'custom_icon' | append: i | append: '_size'
+            -%}
+            {% style %} 
+               #shopify-section-{{ section.id }} .key-feature-block-{{ block.id }} .material-icon svg{
+                width: {{ section.settings[icon_size_key] }}px !important;
+                height: {{ section.settings[icon_size_key] }}px !important;
+                fill: var(--icon-color);
+              }
+            {% endstyle %}
+            <li class="color-{{ section.settings.card_color_scheme }} key-feature-block-{{ block.id }}" 
+                style="{% if section.settings[layout_key] == 'column' %}flex-direction: column; text-align: center;{% endif %}">
+              <div class="list-image">
+                {%- if section.settings[custom_icon_key] -%}
+                  <img 
+                    src="{{ section.settings[custom_icon_key] | image_url: width: section.settings[icon_size_key] }}"
+                    width="{{ section.settings[icon_size_key] }}"
+                    height="{{ section.settings[icon_size_key] }}"
+                    alt="{{ section.settings[text_key] | escape }}"
+                    style="width: {{ section.settings[icon_size_key] }}px !important"
+                    loading="lazy"
+                  >
+                {%- elsif section.settings[icon_key] != blank -%}
+                  <span class="material-icon material-symbols-outlined notranslate" 
+                        style="">
+                    {{  section.settings[icon_key] }}
+                  </span>
+                {%- endif -%}
+              </div>
+              <p>{{ section.settings[text_key] }}</p>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      <div class="center-image">
+        <img
+          src="{{ section.settings.center_image | image_url: width: 388 }}"
+          srcset="
+            {{ section.settings.center_image | image_url: width: 180 }} 180w,
+            {{ section.settings.center_image | image_url: width: 360 }} 360w,
+            {{ section.settings.center_image | image_url: width: 450 }} 450w,
+            {{ section.settings.center_image | image_url: width: 600 }} 600w,
+            {{ section.settings.center_image | image_url: width: 860 }} 860w,
+            {{ section.settings.center_image | image_url: width: 990 }} 990w,
+            {{ section.settings.center_image | image_url: width: 1200 }} 1200w,
+            {{ section.settings.center_image | image_url: width: 1500 }} 1500w
+          "
+          sizes="(max-width: 600px) 250px, 990px"
+          width="388"
+          height="auto"
+          alt="{{ section.settings.main_headings | escape }}"
+          loading="lazy"
+        />
+      </div>
+
+      <div class="text-col">
+        <ul>
+          {%- for i in (3..4) -%}
+            {%- liquid
+              assign text_key = 'list_text' | append: i
+              assign icon_key = 'icon_list-img' | append: i
+              assign custom_icon_key = 'custom_icon_list-img' | append: i
+              assign layout_key = 'list_layout_' | append: i
+              assign icon_size_key = 'custom_icon' | append: i | append: '_size'
+            -%}
+            {% style %}
+               #shopify-section-{{ section.id }} .key-feature-block-{{ block.id }} .material-icon svg{
+                width: {{ section.settings[icon_size_key] }}px !important;
+                height: {{ section.settings[icon_size_key] }}px !important;
+                fill: var(--icon-color);
+              }
+            {% endstyle %}
+            <li class="color-{{ section.settings.card_color_scheme }} key-feature-block-{{ block.id }}" 
+                style="{% if section.settings[layout_key] == 'column' %}flex-direction: column; text-align: center;{% endif %}">
+              <div class="list-image">
+                {%- if section.settings[custom_icon_key] -%}
+                  <img 
+                    src="{{ section.settings[custom_icon_key] | image_url: width: section.settings[icon_size_key] }}"
+                    width="{{ section.settings[icon_size_key] }}"
+                    height="{{ section.settings[icon_size_key] }}"
+                    alt="{{ section.settings[text_key] | escape }}"
+                    style="width: {{ section.settings[icon_size_key] }}px !important"
+                    loading="lazy"
+                  >
+                {%- elsif section.settings[icon_key] != blank -%}
+                 <span class="material-icon material-symbols-outlined notranslate" 
+                        style="">
+                    {{  section.settings[icon_key] }}
+                  </span>
+                {%- endif -%}
+              </div>
+              <p>{{ section.settings[text_key] }}</p>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product key features",
+  "tag": "section",
+  "class": "section animation-section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "main_headings",
+      "default": "Key Features",
+      "label": "Heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "center_image",
+      "label": "Center image"
+    },
+    {
+      "type": "header",
+      "content": "Feature 1"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "list_text1",
+      "label": "Heading",
+      "default": "Talk about your product",
+      "info": "Leave blank to hide "
+    },
+    {
+      "type": "textarea",
+      "id": "icon_list-img1",
+      "label": "Icon SVG",
+      "info": "You can get SVG codes from [Google Material Icons](https://material.io/tools/icons)"
+
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon_list-img1",
+      "label": "Custom image"
+    },
+    {
+      "type": "select",
+      "id": "list_layout_1",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Row"
+        },
+        {
+          "value": "column",
+          "label": "Column"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "custom_icon1_size",
+      "label": "Icon size",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Feature 2"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "list_text2",
+      "default": "Talk about your product",
+      "label": "Heading"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_list-img2",
+      "label": "Icon SVG",
+      "info": "You can get SVG codes from [Google Material Icons](https://material.io/tools/icons)"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon_list-img2",
+      "label": "Custom image"
+    },
+    {
+      "type": "select",
+      "id": "list_layout_2",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Row"
+        },
+        {
+          "value": "column",
+          "label": "Column"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "custom_icon2_size",
+      "label": "Icon size",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Feature 3"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "list_text3",
+      "label": "Heading",
+      "default": "Talk about your product"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_list-img3",
+      "label": "Icon SVG",
+      "info": "You can get SVG codes from [Google Material Icons](https://material.io/tools/icons)"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon_list-img3",
+      "label": "Custom image"
+    },
+    {
+      "type": "select",
+      "id": "list_layout_3",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Row"
+        },
+        {
+          "value": "column",
+          "label": "Column"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "custom_icon3_size",
+      "label": "Icon size",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Feature 4"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "list_text4",
+      "label": "Heading",
+      "default": "Talk about your product"
+    },
+    {
+      "type": "textarea",
+      "id": "icon_list-img4",
+      "label": "Icon SVG",
+      "info": "You can get SVG codes from [Google Material Icons](https://material.io/tools/icons)"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_icon_list-img4",
+      "label": "Custom image"
+    },
+    {
+      "type": "select",
+      "id": "list_layout_4",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "row",
+          "label": "Row"
+        },
+        {
+          "value": "column",
+          "label": "Column"
+        }
+      ],
+      "default": "column"
+    },
+    {
+      "type": "range",
+      "id": "custom_icon4_size",
+      "label": "Icon size",
+      "min": 30,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 30
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_mob_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "body_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body font size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "heading_lighlighted_color",
+      "label": "Bolded heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_highlighted_color",
+      "label": "Bolded body color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_use_gradient",
+      "label": "Use gradient for heading",
+      "info": "Any text formatted as bold within the heading will be converted to a gradient.",
+      "default": false
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient_color",
+      "label": "Heading gradient color"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "card_color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-2",
+      "label": "Card color scheme"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Section color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product key features"
+    }
+  ]
+}
+{% endschema %}

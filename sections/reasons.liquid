@@ -1,0 +1,790 @@
+<style>
+  .reasons-to-buy__content {
+  display: flex;
+  place-items: center;
+  flex-direction: column;
+}
+
+.reasons-to-buy__image {
+  display: flex;
+  margin: 2rem auto;
+}
+
+.reasons-to-buy__image img {
+  max-width: 100%;
+  border-radius: 18px;
+}
+
+.reasons-to-buy__points,
+.reasons-to-buy__points p {
+  font-weight: 500;
+  letter-spacing: normal;
+  word-break: normal;
+}
+
+.reasons-to-buy__points {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  text-align: left;
+  padding: 2rem;
+}
+
+.reasons__text {
+  margin-top: 0px;
+}
+
+.reasons-to-buy__content-inner {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+}
+
+.reasons-to-buy__caption {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 0px;
+}
+.reasons-to-buy__button {
+  display: flex;
+  justify-content: center;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 25px;
+  margin: 2rem auto;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding-top: .5rem;
+  word-break: break-all;
+}
+
+.stat-content p {
+  margin: 0;
+}
+
+.stat-card {
+  background-color: var(--card-bg-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.04);
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.stat-card.animated {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.meter-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 28px;
+  width: 100%;
+}
+
+.meter-track {
+  width: 85%;
+  height: 12px;
+  background-color: #f0f0f0;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.meter-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  border-radius: 6px;
+  background: var(--progress-bar-bg);
+}
+
+div.meter-shine {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 100%);
+  border-radius: 6px 6px 0 0;
+}
+
+.meter-percentage {
+  margin-left: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  color: var(--percentage-text-color);
+}
+
+@media screen and (max-width: 750px) {
+  .stats-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .reasons-to-buy__content-inner {
+    flex-direction: column;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .reasons-to-buy__content-inner.reasons-to-buy__reasons-first {
+    flex-direction: row-reverse;
+  }
+
+  .reasons-to-buy__content-inner {
+    gap: 4rem;
+  }
+}
+</style>
+
+{%- liquid
+  assign global_heading_size = settings.enable_global_heading_font_size
+  assign global_body_size = settings.enable_global_body_font_size
+  assign global_color = settings.enable_global_color
+-%}
+
+{% style %}
+  {%- if request.visual_preview_mode -%}
+    {% comment %} don't want fade-in animation in preview mode because it messes up preview {% endcomment %}
+    .animation_section,
+    .animation_section * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+  {%- endif -%}
+  
+  #shopify-section-{{ section.id }} {
+    --section-padding-top: {{ section.settings.padding_top }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom }}px;
+    --heading-size: {% if global_heading_size %}var(--font-heading-size){% else %}{{ section.settings.reasons_heading_size }}px{% endif %};
+    --heading-line-height: {% if global_heading_size %}calc(var(--font-heading-size) + 8px){% else %}{{ section.settings.reasons_heading_size | plus: 8 }}px{% endif %};
+    --heading-color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ section.settings.results_heading_color }}{% endif %};
+    --heading-bold-color: {{ section.settings.bolded_results_heading_color }};
+    --subheading-size: {% if global_body_size %}var(--global-body-text-font-size){% else %}{{ section.settings.subheading_size }}px{% endif %};
+    --subheading-color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ section.settings.subheading_color }}{% endif %};
+    --subheading-bold-color: {{ section.settings.bolded_subheading_color }};
+    --card-bg-color: {{ section.settings.card_background }}; 
+    --percentage-text-color: {{ section.settings.percentage_text_color }}; 
+    --progress-bar-bg: {{ section.settings.progress_bar_bg }};
+  }
+
+  #shopify-section-{{ section.id }} .section__reasons_to_buy {
+    padding: 5px 0;
+  }
+
+  #reasons-to-buy-{{ section.id }} {
+    padding-top: var(--section-padding-top) !important;
+    padding-bottom: var(--section-padding-bottom) !important;
+  }
+
+  {%- if section.settings.heading_use_gradient -%}
+    #reasons-to-buy-{{ section.id }} .reasons-to-buy__heading strong {
+      background: {% if section.settings.heading_gradient_color != blank %}{{ section.settings.heading_gradient_color }}{% else %}var(--gradient-base-background-1){% endif %};
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  {%- endif -%}
+
+  #reasons-to-buy-{{ section.id }} .reasons-to-buy__container {
+    padding-top: var(--section-padding-top) !important;
+    padding-bottom: var(--section-padding-bottom) !important;
+    display: flex;
+    justify-content: center;
+  }
+
+  #reasons-to-buy-{{ section.id }} .reasons-to-buy__image-container {
+    width: 100%;
+    text-align: {{ section.settings.content_alignment }};
+  }
+
+  #reasons-to-buy-{{ section.id }} .reasons-to-buy__heading {
+    font-size: var(--heading-size) !important;
+    line-height: var(--heading-line-height) !important;
+    color: var(--heading-color) !important;
+    --color-highlighted-color: var(--heading-bold-color);
+    margin: 0 0 1.5rem;
+  }
+
+  #reasons-to-buy-{{ section.id }} .reasons-to-buy__subheading,
+  #reasons-to-buy-{{ section.id }} .reasons-to-buy__subheading p {
+    font-size: var(--subheading-size) !important;
+    color: var(--subheading-color) !important;
+    --color-highlighted-color: var(--subheading-bold-color);
+  }
+
+  @media (max-width: 768px) {
+    #shopify-section-{{ section.id }} {
+      --heading-size: {% if global_heading_size %}var(--font-heading-mob-size){% else %}{{ section.settings.reasons_mob_heading_size }}px{% endif %};
+      --heading-line-height: {% if global_heading_size %}calc(var(--font-heading-mob-size) + 8px){% else %}{{ section.settings.reasons_mob_heading_size | plus: 8 }}px{% endif %};
+    }
+  }
+{% endstyle %}
+
+<div class="section__reasons_to_buy color-{{ section.settings.color_scheme }}">
+  <div id="reasons-to-buy-{{ section.id }}" class="reasons-to-buy">
+    <div class="page-width reasons-to-buy__container">
+      <div class="reasons-to-buy__content">
+        {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+          <div class="reasons-to-buy__image-container">
+            {%- if section.settings.heading != blank -%}
+              <h3 class="reasons-to-buy__heading title">{{ section.settings.heading }}</h3>
+            {%- endif -%}
+            {%- if section.settings.subheading != blank -%}
+              <div class="reasons-to-buy__subheading">{{ section.settings.subheading }}</div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+  
+        <div>
+          <div class="reasons-to-buy__content-inner{% if section.settings.layout == 'reasons_first' %} reasons-to-buy__reasons-first{% endif %}">
+            {%- if section.settings.image != blank -%}
+              <div class="reasons-to-buy__image">
+                {{ section.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', width: 400 }}
+              </div>
+            {%- endif -%}
+            
+            <div 
+              class="stats-grid fade-in-child" 
+            >
+              {%- for block in section.blocks -%}
+                <div class="reasons-to-buy__content-inner-item reasons-to-buy__points stat-card animated" {{ block.shopify_attributes }}>
+                  {% if block.settings.row_heading != blank or block.settings.row_text != blank %}
+                    <div class="stat-content block-{{ block.id }}">
+                      {% style %}
+                        .block-{{ block.id }} {
+                          text-align: {{ block.settings.row_content_alignment }};
+                        }
+
+                        .block-{{ block.id }} .stats-title,
+                        .block-{{ block.id }} .stats-title p {
+                          font-size: {{ block.settings.block_heading_size }}px;
+                          line-height: {{ block.settings.block_heading_size | plus: 8 }}px;
+                          font-weight: 600;
+                          color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ block.settings.block_heading_color }}{% endif %};
+                          --color-highlighted-color: {{ block.settings.bolded_block_heading_color }};
+                        }
+
+                        .block-{{ block.id }} .stats-body-text,
+                        .block-{{ block.id }} .stats-body-text p {
+                          font-size: {% if global_body_size %}var(--global-body-text-font-size){% else %}{{ block.settings.block_body_size }}px{% endif %};
+                          color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ block.settings.block_body_color }}{% endif %};
+                          --color-highlighted-color: {{ block.settings.bolded_block_body_color }};
+                        }
+                      {% endstyle %}
+                      {% if block.settings.row_heading != blank %}
+                        <div class="stats-title">{{ block.settings.row_heading }}</div>
+                      {% endif %}
+                      {% if block.settings.row_text != blank %}
+                        <div class="reasons-to-buy__content-inner-item-text sw-base-text-color stats-body-text">
+                          {{ block.settings.row_text }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                  <div class="meter-container">
+                    <div class="meter-track">
+                      <div class="meter-fill">
+                        <div class="meter-shine"></div>
+                      </div>
+                    </div>
+                    <div class="meter-percentage">{{ block.settings.percentage }}%</div>
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+
+          {%- if section.settings.caption != blank -%}
+            <div class="reasons-to-buy__caption">{{ section.settings.caption }}</div>
+          {%- endif -%}
+
+          {%- if section.settings.button_label != blank -%}
+            <div class="reasons-to-buy__button">
+              <a href="{{ section.settings.link }}" class="button btn--mt-center button--primary split-slide-button">
+                <div class="split-slide-right"></div>
+                <span class="button-text">{{ section.settings.button_label }}</span>
+              </a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initStatsAnimation{{ section.id | replace: '-', '' }} () {
+    const statsData = [
+      {% for block in section.blocks %}
+        {
+          value: {{ block.settings.percentage | default: 0 }}
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ];
+
+    const statCards = document.querySelectorAll('#reasons-to-buy-{{ section.id }} .stat-card');
+    const section = document.querySelector('#reasons-to-buy-{{ section.id }} .reasons-to-buy__container'); 
+    let animationTriggered = false; 
+    
+    function animateMeter(meterElement, percentage) {
+      if (!meterElement) return; 
+
+      const meterFill = meterElement.querySelector('.meter-fill');
+      const percentText = meterElement.querySelector('.meter-percentage');
+
+      if (!meterFill || !percentText) return;
+
+      const duration = 1800;
+      const startTime = performance.now();
+
+      function updateMeter(currentTime) {
+        const elapsed = currentTime - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - t, 3);
+        const currentProgress = easeOut * percentage;
+        
+        meterFill.style.width = `${currentProgress}%`;
+        percentText.textContent = `${Math.round(currentProgress)}%`;
+
+        if (elapsed < duration) {
+          requestAnimationFrame(updateMeter);
+        }
+      }
+
+      requestAnimationFrame(updateMeter);
+    }
+
+    function animateAllMeters() {
+      if (animationTriggered) return;
+      animationTriggered = true; 
+
+      statCards.forEach((card, index) => {
+        if (statsData[index]) {
+          const delay = index * 150;
+          card.style.transitionDelay = `${delay}ms`;
+          setTimeout(() => {
+            {% comment %} card.classList.add('animated'); {% endcomment %}
+            const meter = card.querySelector('.meter-container');
+            animateMeter(meter, statsData[index].value);
+          }, index * 150);
+        }
+      });
+    }
+
+    if (section) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateAllMeters();
+            observer.disconnect(); 
+          }
+        });
+      }, { threshold: 0.3 });
+
+      observer.observe(section);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initStatsAnimation{{ section.id | replace: '-', '' }});
+
+  if (Shopify.designMode) {
+    const sectionId = "{{ section.id }}";
+  
+    document.addEventListener('shopify:section:unload', (event) => {
+      if (event.detail.sectionId === sectionId) {
+        initStatsAnimation{{ section.id | replace: '-', '' }}();
+      }
+    });
+  
+    document.addEventListener('shopify:section:load', (event) => {
+      if (event.detail.sectionId === sectionId) {
+        initStatsAnimation{{ section.id | replace: '-', '' }}();
+      }
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Reasons to buy",
+  "class": "section animation_section",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "subheading",
+      "label": "Body"
+    },
+    {
+      "type": "richtext",
+      "id": "caption",
+      "label": "Caption"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "info": "Leave blank to hide"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Button link"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "reasons_first",
+          "label": "Reasons first"
+        },
+        {
+          "value": "reasons_second",
+          "label": "Reasons second"
+        }
+      ],
+      "default": "reasons_first",
+      "label": "Desktop reasons placement"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "range",
+      "id": "reasons_heading_size",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "reasons_mob_heading_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "label": "Body font size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "results_heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bolded_results_heading_color",
+      "label": "Heading bolded color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_use_gradient",
+      "label": "Use gradient for heading",
+      "info": "Any text formatted as bold within the heading will be converted to a gradient.",
+      "default": false
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient_color",
+      "label": "Heading gradient color"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bolded_subheading_color",
+      "label": "Bolded subheading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color_background",
+      "id": "progress_bar_bg",
+      "label": "Progress bar background",
+      "default": "linear-gradient(90deg, rgba(58, 134, 255, 0.533) 88%, rgba(58, 134, 255, 1) 100%)"
+    },
+    {
+      "type": "color",
+      "id": "percentage_text_color",
+      "label": "Percentage text color",
+      "default": "#3a86ff"
+    },
+    {
+      "type": "color",
+      "id": "card_background",
+      "label": "Card background color",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "custom-color-3",
+          "label": "t:sections.all.colors.custom_color_3.label"
+        },
+        {
+          "value": "custom-color-4",
+          "label": "t:sections.all.colors.custom_color_4.label"
+        },
+        {
+          "value": "custom-color-5",
+          "label": "t:sections.all.colors.custom_color_5.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Section color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Reason row",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "row_heading",
+          "label": "Heading",
+          "default": "<p>Would Recommend</p>"
+        },
+        {
+          "type": "richtext",
+          "id": "row_text",
+          "label": "Body"
+        },
+        {
+          "type": "range",
+          "id": "percentage",
+          "min": 0,
+          "max": 100,
+          "default": 95,
+          "step": 1,
+          "label": "Percentage"
+        },
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "select",
+          "id": "row_content_alignment",
+          "label": "Content alignment",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "range",
+          "id": "block_heading_size",
+          "label": "Heading size",
+          "min": 12,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "default": 20
+        },
+        {
+          "type": "range",
+          "id": "block_body_size",
+          "label": "Body font size",
+          "min": 8,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "header",
+          "content": "Styling"
+        },
+        {
+          "type": "color",
+          "id": "block_heading_color",
+          "label": "Heading color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "bolded_block_heading_color",
+          "label": "Bolded heading color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "block_body_color",
+          "label": "Body color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "bolded_block_body_color",
+          "label": "Bolded body color",
+          "default": "#000000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reasons to buy",
+      "blocks": [
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

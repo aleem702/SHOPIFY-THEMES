@@ -1,0 +1,211 @@
+{% comment %}
+  Accepts:
+  - id: {String} Section or block id
+  - title: {String} Collapsibnle title content
+  - row_title_color: {String} title text color
+  - text_content: {String} Collapsibnle drawer content
+  - row_text_content_color: {String}
+
+  - override_collapsible_font_size: {Boolean}
+  - collapsible_font_size: {Number}
+
+  - collapsible_background_color_scheme_open: {String}
+
+  - collapsible_use_custom_bg_colors: {String}
+  - open_background_color: {String}
+  - closed_background_color: {String}
+  - border_radius: {Number}
+  - padding_top: {Number}
+  - padding_bottom: {Number}
+{% endcomment %}
+
+{%- liquid
+   assign global_body_size = settings.enable_global_body_font_size
+   assign global_color = settings.enable_global_color
+-%}
+
+{%- style -%}
+  .rowTitleColor-{{ id }},
+  .rowTitleColor-{{ id }}:after {
+    color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ row_title_color }}{% endif %};
+  }
+
+  .rowTitleColor-{{ id }} strong {
+    color: {{ row_title_highlighted_color }};
+  }
+
+  svg.rowTitleColor-{{ id }} {
+    fill: none;
+    stroke: {{ row_title_color }};
+    stroke-width: 1;
+  }
+
+  .singleAccordianContainer-{{ id }} {
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: {{ border_radius }}px;
+    overflow: hidden;
+    padding: 5px 0;
+    background-color: rgb(var(--color-base-accent-1));
+  }
+
+  .singleAccordianContainer-{{ id }}:has(> button.active) {
+    {%- if collapsible_background_color_scheme_open != blank -%}
+      background-color: rgb(var(--color-base-{{ collapsible_background_color_scheme_open }}));
+    {%- endif -%}
+  }
+
+  .accordionButtonStyle-{{ id }} {
+    border: none;
+    display: block;
+    background-color: transparent;
+    color: #444;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .accordionButtonStyle-{{ id }}.active {
+    border-bottom-color: rgba(0,0,0,0.1);
+  }
+
+  .panelStyle-{{ id }} {
+    padding: 0 6px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ row_text_content_color }}{% endif %};
+  }
+  
+  .panelStyle-{{ id }} strong {
+    color: {{ row_text_content_highlighted_color }};
+  }
+
+  .panelStyle-{{ id }} p {
+    font-size: {% if global_body_size %}var(--global-body-text-font-size){% else %}{{ collapsible_font_size }}px{% endif %};
+    line-height: 1.4em;
+    margin: .5rem 0;
+  }
+
+  .accordionButtonStyle-{{ id }} svg {
+    transform: rotate(0deg);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    {% if collapsible_font_size != blank %}
+      width: {{ collapsible_font_size }}px;
+      height: {{ collapsible_font_size }}px;
+    {% else %}
+      width: var(--global-body-text-font-size);
+      height: var(--global-body-text-font-size);
+    {% endif %}
+    margin-left: 5px;
+  }
+
+  .accordianTitle-{{ id }} span {
+    font-size: {% if collapsible_font_size != blank %}{{ collapsible_font_size }}px{% else %}var(--global-body-text-font-size){% endif %};
+  }
+
+  .accordionButtonStyle-{{ id }}.active svg {
+    transform: rotate(180deg);
+  }
+
+  .accordianTitle-{{ id }} {
+    font-size: 1.4em;
+    margin: 0;
+    line-height: 1;
+  }
+
+  @media (max-width: 767px) {
+    .panelStyle-{{ id }} p,
+    .accordianTitle-{{ id }} span {
+      font-size: {% if collapsible_font_size != blank %}{{ collapsible_font_size }}px{% else %}var(--global-body-text-font-size){% endif %};
+    }
+  }
+{%- endstyle -%}
+
+<div style="padding-top: {{ padding_top }}px; padding-bottom: {{ padding_bottom }}px;">
+  <div class="singleAccordianContainer-{{ id }}">
+    <button class="accordionButtonStyle-{{ id }}">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 class="accordianTitle-{{ id }} rowTitleColor-{{ id }}" style="text-transform: none;">
+          <span class="collapsibleTitleSpan-{{ id }}">
+            <b>
+              {{ title }}
+            </b>
+          </span>
+        </h2>
+        <svg aria-hidden="true" focusable="false" class="icon icon-caret rowTitleColor-{{ id }}" viewBox="0 0 10 6">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 0 0-.708 0L5 4.293 1.354.646a.5.5 0 0 0-.708.708l4 4a.5.5 0 0 0 .708 0l4-4a.5.5 0 0 0 0-.708">
+        </svg>
+      </div>
+    </button>
+    <div class="panelStyle-{{ id }}">
+      {{ text_content }}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const DEBOUNCE_DELAY = 100;
+    const sectionId = "{{ section.id }}";
+    let initTimeout;
+    let isInitialized = false;
+
+    function handleAccordionClick(event) {
+      const button = event.target.closest('.accordionButtonStyle-{{ id }}');
+      if (!button) return;
+      
+      button.classList.toggle('active');
+      const panel = button.nextElementSibling;
+      
+      if (panel.style.maxHeight) {
+        panel.style.maxHeight = null;
+      } else {
+        const contentHeight = panel.scrollHeight;
+        const paddingTop = 10;
+        const paddingBottom = 10;
+        panel.style.maxHeight = (contentHeight + paddingTop + paddingBottom) + 'px';
+      }
+    }
+
+    function initCollapsibles() {
+      if (isInitialized) return;
+      
+      const container = document.querySelector('.singleAccordianContainer-{{ id }}');
+      if (!container) return;
+      
+      // Remove any existing listeners to prevent duplicates
+      container.removeEventListener('click', handleAccordionClick);
+      // Add single event listener using event delegation
+      container.addEventListener('click', handleAccordionClick);
+      
+      isInitialized = true;
+    }
+
+    function safeInitCollapsibles() {
+      clearTimeout(initTimeout);
+      initTimeout = setTimeout(initCollapsibles, DEBOUNCE_DELAY);
+    }
+
+    function handleShopifyEvent(event) {
+      if (event.detail.sectionId === sectionId) {
+        isInitialized = false;
+        safeInitCollapsibles();
+      }
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', safeInitCollapsibles);
+
+    // Handle Shopify section events in theme editor
+    if (Shopify.designMode) {
+      document.addEventListener('shopify:section:load', handleShopifyEvent);
+      document.addEventListener('shopify:section:unload', handleShopifyEvent);
+    }
+  })();
+</script>

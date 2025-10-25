@@ -1,0 +1,150 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+  - block: {Object} block object.
+
+
+  Usage:
+  {% render 'product-variant-options',
+    product: product,
+    option: option,
+    block: block
+  %}
+{% endcomment %}
+{%- liquid
+  assign variants_available_arr = product.variants | map: 'available'
+  assign variants_option1_arr = product.variants | map: 'option1'
+  assign variants_option2_arr = product.variants | map: 'option2'
+  assign variants_option3_arr = product.variants | map: 'option3'
+
+  assign product_form_id = 'product-form-' | append: section.id
+-%}
+
+{%- for value in option.values -%}
+  {%- liquid
+    assign option_disabled = true
+
+    for option1_name in variants_option1_arr
+      case option.position
+        when 1
+          if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+        when 2
+          if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+        when 3
+          if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+      endcase
+    endfor
+  -%}
+
+  {%- if is_color_swatch -%}
+    <div class="swatch-color">
+      <div class="swatch-color__inner">
+        <input
+          style="display: none;"
+          type="radio"
+          id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+          name="{{ option.name }}"
+          value="{{ value | escape }}"
+          form="{{ product_form_id }}"
+          {% unless section.settings.show_main_image_first %}
+            {% if option.selected_value == value %}
+              checked
+            {% endif %}
+          {% endunless %}
+          {% if option_disabled %}
+            class="disabled"
+          {% endif %}
+        >
+        {% comment %}
+          find the variant that will have the same image corresponding to the current option value
+          and display the image for that variant
+        {% endcomment %}
+        {% assign variant_image_with_same_option_value = null %}
+        {% for variant in product.variants %}
+          {% assign option_key = 'option' | append: option.position %}
+          {% if variant[option_key] == value and variant.image %}
+            {% assign variant_image_with_same_option_value = variant %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+        <div class="swatch-color__image">
+          {%- liquid
+            assign swatch_value = null
+            assign raw_rem_value = block.settings.swatch_size | split: 'rem' | first | times: 1
+            assign adjusted_rem_value = raw_rem_value | minus: 0.6
+            assign pixel_value = adjusted_rem_value | times: 10 | round
+            if block.settings.color_swatch_type == 'image'
+              if value.variant.image
+                assign image_url = value.variant.image | image_url: width: pixel_value
+                assign swatch_value = 'url(' | append: image_url | append: ')'
+              elsif variant_image_with_same_option_value.image
+                assign image_url = variant_image_with_same_option_value.image | image_url: width: pixel_value
+                assign swatch_value = 'url(' | append: image_url | append: ')'
+              else
+                assign image_url = 'empty-swath.svg' | asset_url
+                assign swatch_value = 'url(' | append: image_url | append: ')'
+              endif
+            elsif value.swatch.image
+              assign image_url = value.swatch.image | image_url: width: pixel_value
+              assign swatch_value = 'url(' | append: image_url | append: ')'
+            elsif value.swatch.color
+              assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+            endif
+          -%}
+          <div style="background: {{ swatch_value }}; height: 100%;">&nbsp;</div>
+        </div>
+        <label class="swatch-color_hidden-label" for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+        </label>
+      </div>
+      {% comment %} <span class="swatch-color__label">{{ value }}</span> {% endcomment %}
+    </div>
+  {%- elsif block.settings.picker_type == 'button' -%}
+    <input
+      style="display: none;"
+      class="variant_radio_input"
+      type="radio"
+      id="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}"
+      name="{{ option.name }}"
+      value="{{ value | escape }}"
+      form="{{ product_form_id }}"
+      {% unless section.settings.show_main_image_first %}
+        {% if option.selected_value == value %}
+          checked
+        {% endif %}
+      {% endunless %}
+      {% if option_disabled %}
+        class="disabled"
+      {% endif %}
+    >
+    <div class="variant_radio_label_container">
+      <label for="{{ section.id }}-{{ option.position }}-{{ forloop.index0 }}">
+        {{ value -}}
+        <span class="visually-hidden">{{ 'products.product.variant_sold_out_or_unavailable' | t }}</span>
+      </label>
+    </div>
+  {%- else -%}
+    <option
+      value="{{ value | escape }}"
+      {% unless section.settings.show_main_image_first %}
+        {% if option.selected_value == value %}
+          selected="selected"
+        {% endif %}
+      {% endunless %}
+    >
+      {% if option_disabled -%}
+        {{- 'products.product.value_unavailable' | t: option_value: value -}}
+      {%- else -%}
+        {{- value -}}
+      {%- endif %}
+    </option>
+  {%- endif -%}
+{%- endfor -%}

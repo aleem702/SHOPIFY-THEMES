@@ -1,0 +1,53 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "title": "Collections",
+        "sort": "alphabetical",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "columns_mobile": "2"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Subscribe to our emails"
+          }
+        },
+        "paragraph": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>Join our email list for exclusive offers and the latest news. <\/p>"
+          }
+        },
+        "email-form": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading",
+        "paragraph",
+        "email-form"
+      ],
+      "settings": {
+        "side_block_image": "shopify:\/\/shop_images\/625732d9fab3aaf23ceaa2c9_subscribe-image-product-p-1080.jpeg_1.png",
+        "button_type": "solid",
+        "button_label": "Sign up",
+        "color_scheme": "accent-1",
+        "full_width": true,
+        "padding_top": 68,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "main",
+    "newsletter"
+  ]
+}

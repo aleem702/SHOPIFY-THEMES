@@ -1,0 +1,191 @@
+{%- liquid
+  assign section_id_variable = section.id
+-%}
+
+{% if request.visual_preview_mode %}
+ {% comment %} For rendering in the theme editor visual preview. {% endcomment %}
+ {% assign section_id_variable = "id" %}
+{% endif %}
+
+{%- style -%}
+  .horizontal-scrolling-text-{{ section_id_variable }} {
+    overflow: hidden;
+    white-space: nowrap;
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
+    position: relative;
+  }
+
+  .horizontal-scrolling-text__wrapper-{{ section_id_variable }} {
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .horizontal-scrolling-text__container-{{ section_id_variable }} {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: scroll-left linear infinite;
+    animation-duration: {{ 60 | divided_by: section.settings.speed }}s;
+  }
+
+  @keyframes scroll-left {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .horizontal-scrolling-text__item-{{ section_id_variable }} {
+    display: inline-block;
+    padding: 0 {{ section.settings.text_spacing }}rem;
+    font-size: {{ section.settings.text_size }}px;
+    color: {{ section.settings.text_color }};
+  }
+
+  .horizontal-scrolling-text__item-{{ section_id_variable }} strong,
+  .horizontal-scrolling-text__item-{{ section_id_variable }} b {
+    color: {{ section.settings.highlighted_text_color }};
+  }
+
+  .horizontal-scrolling-text__loop_container-{{ section_id_variable }} {
+    width: fit-content;
+  }
+{%- endstyle -%}
+
+{%- capture loop_content -%}
+  {%- for block in section.blocks -%}
+    <div class="horizontal-scrolling-text__item-{{ section_id_variable }} block-{{ block.id }}">
+      {{- block.settings.title -}}
+    </div>
+  {%- endfor -%}
+{%- endcapture -%}
+
+<div class="horizontal-scrolling-text horizontal-scrolling-text-{{ section_id_variable }} color-{{ section.settings.color_scheme }}">
+  <div class="horizontal-scrolling-text__wrapper-{{ section_id_variable }}">
+    <div class="horizontal-scrolling-text__container-{{ section_id_variable }}">
+      {%- for i in (1..6) -%}
+        <div class="horizontal-scrolling-text__loop_container-{{ section_id_variable }}">
+          {{- loop_content -}}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="fade-in__left_container"></div>
+  <div class="fade-in__right_container"></div>
+</div>
+
+{%- schema -%}
+{
+  "name": "Horizontal sliding text",
+  "settings": [
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "text_spacing",
+      "label": "Text spacing",
+      "min": 1,
+      "max": 5,
+      "default": 3,
+      "step": 0.5
+    },
+    {
+      "type": "range",
+      "id": "speed",
+      "label": "Scroll speed",
+      "min": 0.5,
+      "max": 10,
+      "default": 1,
+      "step": 0.5
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "highlighted_text_color",
+      "label": "Bolded text color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        { "value": "accent-1", "label": "t:sections.all.colors.accent_1.label" },
+        { "value": "accent-2", "label": "t:sections.all.colors.accent_2.label" },
+        { "value": "accent-3", "label": "t:sections.all.colors.accent_3.label" },
+        { "value": "custom-color-1", "label": "t:sections.all.colors.custom_color_1.label" },
+        { "value": "custom-color-2", "label": "t:sections.all.colors.custom_color_2.label" },
+        { "value": "inverse", "label": "t:sections.all.colors.inverse.label" },
+        { "value": "gradient-background-1", "label": "t:sections.all.colors.gradient_background_1.label" }
+      ],
+      "default": "accent-1",
+      "label": "t:sections.all.colors.label"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "Atlas",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Horizontal sliding text",
+      "blocks": [
+        { "type": "text" },
+        { "type": "text" },
+        { "type": "text" }
+      ]
+    }
+  ]
+}
+{%- endschema -%}

@@ -1,0 +1,85 @@
+.contact img {
+  max-width: 100%;
+}
+
+.contact .form__message {
+  align-items: flex-start;
+}
+
+.contact .icon-success {
+  margin-top: 0.2rem;
+}
+
+.contact .field {
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .contact .field {
+    margin-bottom: 2rem;
+  }
+}
+
+.track-button {
+  display: flex;
+  justify-content: center;
+  height: 57px;
+}
+@media (min-width: 650px) {
+  .track-button {
+    position: absolute;
+    top: 50%; 
+    right: 10px; 
+    transform: translateY(-50%);
+    max-width: 210px;
+    width: 100%;
+    margin-top: 0px  !important;
+  }
+}
+@media (max-width: 650px) {
+  .track-button {
+    position: relative;
+    margin-top: 10px;
+  }
+}
+
+
+.track-button input {
+  display: flex;
+  justify-content: center;
+  min-height: 0px !important;
+}
+
+.order-tracking-form .field input {
+  height: 70px;
+  padding: 20px 240px 20px 20px;
+}
+
+.order-tracking-form .field label {
+  top: 30%;
+}
+
+@media screen and (min-width: 750px) {
+  .contact__fields {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 2rem;
+  }
+}
+
+.order-tracking-card {
+  border-radius: 30px;
+  width: 100%;
+  padding: 55px 70px;
+}
+@media (max-width: 768px) {
+  .order-tracking-card {
+    padding: 35px 30px;
+  }
+}
+
+.order-tracking-form {
+  max-width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+}

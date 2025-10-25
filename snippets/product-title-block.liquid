@@ -1,0 +1,30 @@
+{% style %}
+  #title-{{block.id}} {
+    font-size: {% if global_heading_size %}var(--font-heading-size){% else %}{{ block.settings.font_size }}px{% endif %};
+    line-height: {% if global_heading_size %}calc(var(--font-heading-size) + 8px){% else %}{{ block.settings.font_size | plus: 8 }}px{% endif %};
+  }
+  @media screen and (max-width: 750px) {
+    #title-{{block.id}} {
+      font-size: {% if global_heading_size  %}var(--font-heading-mob-size){% else %}{{ block.settings.mobile_font_size }}px{% endif %};
+      line-height: {% if global_heading_size  %}calc(var(--font-heading-mob-size) + 8px){% else %}{{ block.settings.mobile_font_size | plus: 8 }}px{% endif %};
+    }
+  }
+{% endstyle %}
+
+<h2
+  class="title"
+  id="title-{{ block.id }}"
+  style="
+    color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ block.settings.heading_color }} !important{% endif %};
+    --color-highlighted-color : {{ block.settings.heading_highlighted_color }}
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if block.settings.custom_heading_text != blank -%}
+    {{ block.settings.custom_heading_text }}
+  {%- elsif product.title != blank -%}
+    {{ product.title | escape }}
+  {%- else -%}
+    {{ 'onboarding.product_title' | t }}
+  {%- endif -%}
+</h2> 

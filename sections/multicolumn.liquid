@@ -1,0 +1,556 @@
+{%- if request.visual_preview_mode -%}
+  <link rel="stylesheet" href="{{ 'section-multicolumn.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}">
+{%- else -%}
+  <link rel="stylesheet" href="{{ 'section-multicolumn.css' | asset_url }}" media="print" onload="this.media='all'" defer>
+  <link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" media="print" onload="this.media='all'" defer>
+{%- endif -%}
+
+{%- liquid
+  assign global_heading_size = settings.enable_global_heading_font_size
+  assign global_body_size = settings.enable_global_body_font_size
+  assign global_color = settings.enable_global_color
+  assign columns_mobile_int = section.settings.columns_mobile | plus: 0
+  assign show_mobile_slider = false
+  if section.settings.swipe_on_mobile and section.blocks.size > columns_mobile_int
+    assign show_mobile_slider = true
+  endif
+-%}
+
+{%- style -%}
+  {%- if request.visual_preview_mode -%}
+    {% comment %} don't want fade-in animation in preview mode because it messes up preview {% endcomment %}
+    .animation_section,
+    .animation_section * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+  {%- endif -%}
+
+  #shopify-section-{{ section.id }} .section__multicolumn {
+    padding: 5px 0;
+    margin: -1px 0;
+  }
+  
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  #heading-{{ section.id }} {
+    font-size: {% if global_heading_size %}var(--font-heading-size)!important{% else %}{{ section.settings.heading_size }}px!important{% endif %};
+    line-height: {% if global_heading_size %}calc(var(--font-heading-size) + 8px)!important{% else %}{{ section.settings.heading_size | plus: 8 }}px!important{% endif %};
+    color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ section.settings.heading_color }}{% endif %};
+    --color-highlighted-color: {{ section.settings.bolded_heading_color }};
+  }
+
+  @media (max-width: 768px) {
+    #heading-{{ section.id }} {
+      font-size: {% if global_heading_size %}var(--font-heading-mob-size) !important{% else %}{{ section.settings.heading_mob_size }}px!important{% endif %};
+      line-height: {% if global_heading_size %}calc(var(--font-heading-mob-size) + 8px) !important{% else %}{{ section.settings.heading_mob_size | plus: 8 }}px!important{% endif %};
+    }
+  }
+
+  #heading-{{ section.id }} strong {
+    {%- if section.settings.heading_use_gradient -%}
+      background: {% if section.settings.heading_gradient_color != blank %}{{ section.settings.heading_gradient_color }}{% else %}var(--gradient-base-background-1){% endif %};
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    {%- endif -%}
+  }
+{%- endstyle -%}
+
+<div class="multicolumn color-{{ section.settings.color_scheme }} gradient{% if section.settings.title == blank %} no-heading{% endif %} section__multicolumn" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};">
+  <div class="page-width section-{{ section.id }}-padding isolate">
+    {%- unless section.settings.title == blank -%}
+      <div class="title-wrapper-with-link title-wrapper--self-padded-mobile title-wrapper--no-top-margin">
+        <h2 id="heading-{{ section.id }}" class="title">{{ section.settings.title }}</h2>
+      </div>
+    {%- endunless -%}
+
+    <slideshow-component class="slider-mobile-gutter">
+      <ul class="multicolumn-list contains-content-container grid grid--{{ section.settings.columns_mobile }}-col-tablet-down grid--{{ section.settings.columns_desktop }}-col-desktop{% if show_mobile_slider %} slider slider--mobile grid--peek{% endif %} fade-in-child" id="Slider-{{ section.id }}" role="list">
+        {%- liquid
+          assign highest_ratio = 0
+          for block in section.blocks
+            if block.settings.image.aspect_ratio > highest_ratio
+              assign highest_ratio = block.settings.image.aspect_ratio
+            endif
+          endfor
+        -%}
+
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign empty_column = ''
+            if block.settings.image == blank and block.settings.title == blank and block.settings.text == blank and block.settings.link_label == blank
+              assign empty_column = ' multicolumn-list__item--empty'
+            endif
+          -%}
+
+          {% style %}
+            #column-title-{{ block.id }} {
+              font-size: {{ block.settings.heading_size }}px;
+              line-height: {{ block.settings.heading_size | plus: 8 }}px;
+              color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ block.settings.heading_color }}{% endif %};
+              --color-highlighted-color: {{ block.settings.bolded_heading_color }};
+            }
+
+            #column-text-{{ block.id }},
+            #column-text-{{ block.id }} p {
+              font-size: {% if global_body_size %}var(--global-body-text-font-size)!important{% else %}{{ block.settings.text_size }}px!important{% endif %};
+              line-height: {% if global_body_size %}calc(var(--global-body-text-font-size) + 8px)!important{% else %}{{ block.settings.text_size | plus: 12 }}px{% endif %};
+              color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ block.settings.text_color }}{% endif %};
+              --color-highlighted-color: {{ block.settings.bolded_text_color }};
+              font-weight: 400 !important;
+            }
+
+            #Slider-{{ section.id }} .multicolumn-card.content-container {
+              background: {{ section.settings.card_bg_color }};
+            }
+          {% endstyle %}
+
+          <li id="Slide-{{ section.id }}-{{ forloop.index }}" class="multicolumn-list__item grid__item{% if section.settings.swipe_on_mobile %} slider__slide{% endif %} {{ section.settings.column_alignment }}{{ empty_column }}" {{ block.shopify_attributes }}>
+            <div class="multicolumn-card content-container">
+              {%- if block.settings.image != blank -%}
+                {%- liquid
+                  assign spaced_image = false
+                  if section.settings.image_ratio == 'adapt' or section.settings.image_ratio == 'circle'
+                    assign spaced_image = true
+                  endif
+                -%}
+                <div class="multicolumn-card__image-wrapper multicolumn-card__image-wrapper--{{ section.settings.image_width }}-width{% if section.settings.image_width != 'full' or spaced_image %} multicolumn-card-spacing{% endif %}">
+                  <div class="media media--transparent media--{{ section.settings.image_ratio }}" style="{% if section.settings.image_ratio != 'circle' and section.settings.image_ratio != 'adapt' %}border-radius: 10px;{% elsif section.settings.image_ratio == 'adapt' %}padding-bottom: {{ 1 | divided_by: highest_ratio | times: 100 }}%;{% endif %}">
+                    {%- capture sizes -%}
+                      (min-width: 990px) {% if section.blocks.size <= 2 %}710px{% else %}550px{% endif %}, (min-width: 750px) {% if section.blocks.size == 1 %}710px{% else %}550px{% endif %}, calc(100vw - 30px)
+                    {%- endcapture -%}
+                    {{ block.settings.image | image_url: width: 1420 | image_tag: loading: 'lazy', sizes: sizes, widths: '275, 550, 710, 1420', class: 'multicolumn-card__image' }}
+                  </div>
+                </div>
+              {%- endif -%}
+
+              <div class="multicolumn-card__info">
+                {%- if block.settings.title != blank -%}
+                  <h3 id="column-title-{{ block.id }}">{{ block.settings.title }}</h3>
+                {%- endif -%}
+
+                {%- if block.settings.text != blank -%}
+                  <div class="sw-base-text-color image-with-text__text rte body" id="column-text-{{ block.id }}">{{ block.settings.text }}</div>
+                {%- endif -%}
+
+                {%- if block.settings.link_label != blank -%}
+                  <a class="link animate-arrow" {% if block.settings.link == blank %}role="link" aria-disabled="true"{% else %}href="{{ block.settings.link }}"{% endif %}>
+                    {{- block.settings.link_label | escape -}}
+                    <span class="icon-wrap">&nbsp;{% render 'icon-arrow' %}</span>
+                  </a>
+                {%- endif -%}
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if show_mobile_slider and section.settings.remove_navigation == false -%}
+        <div class="slider-buttons no-js-hidden medium-hide">
+          <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">
+            {% render 'icon-caret' %}
+          </button>
+          <div class="slider-counter caption">
+            <span class="slider-counter--current">1</span>
+            <span aria-hidden="true"> / </span>
+            <span class="visually-hidden">{{ 'general.slider.of' | t }}</span>
+            <span class="slider-counter--total">{{ section.blocks.size }}</span>
+          </div>
+          <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">
+            {% render 'icon-caret' %}
+          </button>
+        </div>
+      {%- endif -%}
+    </slideshow-component>
+
+    <div class="center">
+      {%- if section.settings.button_label != blank -%}
+        <a class="button button--primary split-slide-button" {% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ section.settings.button_link }}"{% endif %}>
+          <div class="split-slide-right"></div>
+          <span class="button-text">{{ section.settings.button_label | escape }}</span>
+        </a>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured columns",
+  "class": "section animation_section",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "default": "Multicolumn",
+      "label": "t:sections.multicolumn.settings.title.label"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "default": "Button label",
+      "label": "Button label",
+      "info": "Note: Leave blank to hide"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_width",
+      "options": [
+        {
+          "value": "full",
+          "label": "t:sections.multicolumn.settings.image_width.options__3.label"
+        },
+        {
+          "value": "half",
+          "label": "t:sections.multicolumn.settings.image_width.options__2.label"
+        },
+        {
+          "value": "third",
+          "label": "t:sections.multicolumn.settings.image_width.options__1.label"
+        }
+      ],
+      "default": "full",
+      "label": "t:sections.multicolumn.settings.image_width.label"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__3.label"
+        },
+        {
+          "value": "circle",
+          "label": "t:sections.multicolumn.settings.image_ratio.options__4.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.multicolumn.settings.image_ratio.label"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_mob_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Desktop columns"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.multicolumn.settings.column_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.multicolumn.settings.column_alignment.options__2.label"
+        }
+      ],
+      "default": "center",
+      "label": "Column alignment"
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "t:sections.multicolumn.settings.columns_mobile.options__1.label"
+        },
+        {
+          "value": "2",
+          "label": "t:sections.multicolumn.settings.columns_mobile.options__2.label"
+        }
+      ],
+      "default": "2",
+      "label": "Mobile columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "swipe_on_mobile",
+      "default": true,
+      "label": "Mobile swipe"
+    },
+    {
+      "type": "checkbox",
+      "id": "remove_navigation",
+      "label": "Remove navigation",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "%",
+      "label": "Opacity",
+      "default": 100
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Column background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bolded_heading_color",
+      "label": "Bolded heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_use_gradient",
+      "label": "Use gradient for heading",
+      "info": "Any text formatted as bold within the heading will be converted to a gradient.",
+      "default": false
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient_color",
+      "label": "Heading gradient color"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "custom-color-3",
+          "label": "t:sections.all.colors.custom_color_3.label"
+        },
+        {
+          "value": "custom-color-4",
+          "label": "t:sections.all.colors.custom_color_4.label"
+        },
+        {
+          "value": "custom-color-5",
+          "label": "t:sections.all.colors.custom_color_5.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Section color scheme"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "t:sections.multicolumn.blocks.column.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.multicolumn.blocks.column.settings.image.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "title",
+          "default": "Column",
+          "label": "t:sections.multicolumn.blocks.column.settings.title.label"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+          "label": "Body"
+        },
+        {
+          "type": "range",
+          "id": "heading_size",
+          "min": 16,
+          "max": 30,
+          "step": 1,
+          "unit": "px",
+          "label": "Heading size",
+          "default": 24
+        },
+        {
+          "type": "range",
+          "id": "text_size",
+          "min": 8,
+          "max": 24,
+          "step": 1,
+          "unit": "px",
+          "label": "Body font size",
+          "default": 16
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "t:sections.multicolumn.blocks.column.settings.link_label.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.multicolumn.blocks.column.settings.link.label"
+        },
+        {
+          "type": "header",
+          "content": "Styling"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "bolded_heading_color",
+          "label": "Bolded heading color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Body color",
+          "default": "#000000"
+        },
+        {
+          "type": "color",
+          "id": "bolded_text_color",
+          "label": "Bolded body color",
+          "default": "#000000"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured columns",
+      "blocks": [
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        },
+        {
+          "type": "column"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

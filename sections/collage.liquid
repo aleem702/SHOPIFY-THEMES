@@ -1,0 +1,367 @@
+{{ 'collage.css' | asset_url | stylesheet_tag }}
+{{ 'component-modal-video.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign global_heading_size = settings.enable_global_heading_font_size
+  assign global_body_size = settings.enable_global_body_font_size
+  assign global_color = settings.enable_global_color
+-%}
+
+{%- style -%}
+
+  {%- if request.visual_preview_mode -%}
+    {% comment %} don't want fade-in animation in preview mode because it messes up preview {% endcomment %}
+    .animation_section,
+    .animation_section * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+  {%- endif -%}
+  
+    #shopify-section-{{ section.id }} .card__inner {
+      --ratio-percent: 80% !important; /* Make the card's image 80% as tall */
+    }
+
+    #shopify-section-{{ section.id }} .section__collage {
+      padding: 5px 0;
+    }
+
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    }
+
+    @media screen and (min-width: 750px) {
+      .section-{{ section.id }}-padding {
+        padding-top: {{ section.settings.padding_top }}px;
+        padding-bottom: {{ section.settings.padding_bottom }}px;
+      }
+    }
+
+    #heading-{{ section.id }} {
+      color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ section.settings.heading_color }}{% endif %};
+      font-size: {% if global_heading_size %}var(--font-heading-size)!important{% else %}{{ section.settings.heading_size }}px!important{% endif %};
+      line-height: {% if global_heading_size %}calc(var(--font-heading-size) + 8px)!important{% else %}{{ section.settings.heading_size | plus: 8 }}px!important{% endif %};
+      --color-highlighted-color: {{ section.settings.bolded_heading_color }};
+    }
+
+    @media (max-width: 768px) {
+      #heading-{{ section.id }} {
+        font-size: {% if global_heading_size %}var(--font-heading-mob-size)!important{% else %}{{ section.settings.heading_mob_size }}px!important{% endif %};
+        line-height: {% if global_heading_size %}calc(var(--font-heading-mob-size) + 8px)!important{% else %}{{ section.settings.heading_mob_size | plus: 8 }}px!important{% endif %};
+      }
+    }
+{%- endstyle -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient isolate section__collage">
+  <div class="page-width{% if section.settings.heading == blank %} no-heading{% endif %} section-{{ section.id }}-padding">
+    <h2 id="heading-{{ section.id }}" class="title collage-wrapper-title">{{ section.settings.heading }}</h2>
+
+    <div class="collage{% if section.settings.mobile_layout == 'collage' %} collage--mobile{% endif %} fade-in-child">
+      {%- for block in section.blocks -%}
+        <div
+          class="collage__item collage__item--{{ block.type }} collage__item--{{ section.settings.desktop_layout }}"
+          {{ block.shopify_attributes }}
+        >
+          {%- case block.type -%}
+            {%- when 'image' -%}
+              {% render 'collage-image', image: block.settings.image, card_styles: section.settings.card_styles %}
+
+            {%- when 'product' -%}
+              {% render 'card-product',
+                card_product: block.settings.product,
+                media_aspect_ratio: 'adapt',
+                show_secondary_image: block.settings.second_image,
+                extend_height: true
+              %}
+
+            {%- when 'collection' -%}
+              {% render 'card-collection',
+                card_collection: block.settings.collection,
+                media_aspect_ratio: 'adapt',
+                columns: 2,
+                extend_height: true,
+                wrapper_class: section.settings.card_styles
+              %}
+
+            {%- when 'video' -%}
+              {% render 'collage-video',
+                video_url: block.settings.video_url,
+                cover_image: block.settings.cover_image,
+                description: block.settings.description,
+                card_styles: section.settings.card_styles,
+                block_id: block.id
+              %}
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.collage.name",
+  "tag": "section",
+  "class": "section animation_section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Multimedia collage",
+      "label": "t:sections.collage.settings.heading.label"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_mob_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 28
+    },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.collage.settings.desktop_layout.options__1.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.collage.settings.desktop_layout.options__2.label"
+        }
+      ],
+      "default": "left",
+      "label": "t:sections.collage.settings.desktop_layout.label"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "options": [
+        {
+          "value": "collage",
+          "label": "t:sections.collage.settings.mobile_layout.options__1.label"
+        },
+        {
+          "value": "column",
+          "label": "t:sections.collage.settings.mobile_layout.options__2.label"
+        }
+      ],
+      "default": "collage",
+      "label": "t:sections.collage.settings.mobile_layout.label"
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "select",
+      "id": "card_styles",
+      "options": [
+        {
+          "value": "none",
+          "label": "Indivisual card"
+        },
+        {
+          "value": "product-card-wrapper",
+          "label": "Product cards"
+        }
+      ],
+      "default": "product-card-wrapper",
+      "info": "t:sections.collage.settings.card_styles.info",
+      "label": "t:sections.collage.settings.card_styles.label"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bolded_heading_color",
+      "label": "Bolded heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "custom-color-3",
+          "label": "t:sections.all.colors.custom_color_3.label"
+        },
+        {
+          "value": "custom-color-4",
+          "label": "t:sections.all.colors.custom_color_4.label"
+        },
+        {
+          "value": "custom-color-5",
+          "label": "t:sections.all.colors.custom_color_5.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-2",
+      "label": "Section color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "t:sections.collage.blocks.image.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.collage.blocks.image.settings.image.label"
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "t:sections.collage.blocks.product.name",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.collage.blocks.product.settings.product.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "second_image",
+          "default": false,
+          "label": "t:sections.collage.blocks.product.settings.second_image.label"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "t:sections.collage.blocks.collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.collage.blocks.collection.settings.collection.label"
+        }
+      ]
+    },
+    {
+      "type": "video",
+      "name": "t:sections.collage.blocks.video.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "cover_image",
+          "label": "t:sections.collage.blocks.video.settings.cover_image.label"
+        },
+        {
+          "type": "video_url",
+          "id": "video_url",
+          "accept": ["youtube", "vimeo"],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+          "label": "t:sections.collage.blocks.video.settings.video_url.label",
+          "placeholder": "t:sections.collage.blocks.video.settings.video_url.placeholder",
+          "info": "t:sections.collage.blocks.video.settings.video_url.info"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "default": "Describe the video",
+          "label": "t:sections.collage.blocks.video.settings.description.label",
+          "info": "t:sections.collage.blocks.video.settings.description.info"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "t:sections.collage.presets.name",
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "product"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

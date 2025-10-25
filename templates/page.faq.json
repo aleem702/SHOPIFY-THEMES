@@ -1,0 +1,137 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true,
+      "settings": {
+        "heading_color": "#000000",
+        "heading_size": 40,
+        "heading_mob_size": 28,
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
+    "collapsible_content_dcPnqt": {
+      "type": "collapsible-content",
+      "blocks": {
+        "collapsible_row_wiHw77": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Common question or objection #1",
+            "row_content": "<p>A detailed answer to the question using the \"Product name\"</p>",
+            "show_custom_icon": true,
+            "icon": "help",
+            "heading_color": "#383838",
+            "heading_highlighted_color": "#383838",
+            "body_color": "#302f2f",
+            "body_highlighted_color": "#302f2f"
+          }
+        },
+        "collapsible_row_fXTyE7": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Common question or objection #2",
+            "row_content": "<p>A detailed answer to the question using the \"Product name\"</p>",
+            "show_custom_icon": true,
+            "icon": "help",
+            "heading_color": "#383838",
+            "heading_highlighted_color": "#383838",
+            "body_color": "#302f2f",
+            "body_highlighted_color": "#302f2f"
+          }
+        },
+        "collapsible_row_nq3bjD": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Common question or objection #3",
+            "row_content": "<p>A detailed answer to the question using the \"Product name\"</p>",
+            "show_custom_icon": true,
+            "icon": "help",
+            "heading_color": "#383838",
+            "heading_highlighted_color": "#383838",
+            "body_color": "#302f2f",
+            "body_highlighted_color": "#302f2f"
+          }
+        },
+        "collapsible_row_hReT6e": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Common question or objection #4",
+            "row_content": "<p>A detailed answer to the question using the \"Product name\"</p>",
+            "show_custom_icon": true,
+            "icon": "help",
+            "heading_color": "#383838",
+            "heading_highlighted_color": "#383838",
+            "body_color": "#302f2f",
+            "body_highlighted_color": "#302f2f"
+          }
+        },
+        "collapsible_row_cggHjV": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Common question or objection #5",
+            "row_content": "<p>A detailed answer to the question using the \"Product name\"</p>",
+            "show_custom_icon": true,
+            "icon": "help",
+            "heading_color": "#383838",
+            "heading_highlighted_color": "#383838",
+            "body_color": "#302f2f",
+            "body_highlighted_color": "#302f2f"
+          }
+        },
+        "collapsible_row_zYaqGx": {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Common question or objection #6",
+            "row_content": "<p>A detailed answer to the question using the \"Product name\"</p>",
+            "show_custom_icon": true,
+            "icon": "help",
+            "heading_color": "#383838",
+            "heading_highlighted_color": "#383838",
+            "body_color": "#302f2f",
+            "body_highlighted_color": "#302f2f"
+          }
+        }
+      },
+      "block_order": [
+        "collapsible_row_wiHw77",
+        "collapsible_row_fXTyE7",
+        "collapsible_row_nq3bjD",
+        "collapsible_row_hReT6e",
+        "collapsible_row_cggHjV",
+        "collapsible_row_zYaqGx"
+      ],
+      "settings": {
+        "heading": "<strong>Have Questions?</strong> We’ve Got You Covered!",
+        "desktop_layout": "image_first",
+        "image_ratio": "adapt",
+        "heading_alignment": "center",
+        "font_size": 35,
+        "mob_font_size": 30,
+        "layout": "none",
+        "bold_row_title": false,
+        "heading_color": "#383838",
+        "heading_highlighted_color": "#383838",
+        "color_scheme": "accent-1",
+        "row_container_bg_color_scheme": "#FFFFFF",
+        "icon_color": "#000000",
+        "arrow_color": "#000000",
+        "padding_top": 24,
+        "padding_bottom": 24
+      }
+    }
+  },
+  "order": [
+    "main",
+    "collapsible_content_dcPnqt"
+  ]
+}

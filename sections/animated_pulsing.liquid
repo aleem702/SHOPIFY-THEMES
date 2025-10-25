@@ -1,0 +1,205 @@
+{% comment %}
+  Animated Section Divider
+
+  Usage:
+  {% render 'animated_divider_section' %}
+
+  Optional parameters:
+  - animation_class: Additional CSS classes to add
+  - animation_color: Override the theme setting color
+  - animation_intensity: Override the theme setting intensity (subtle, normal, strong)
+  - animation_speed: Override the theme setting animation speed (in seconds)
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'animated_divider.css' | asset_url }}" media="print" onload="this.media='all'" defer>
+
+{% liquid
+  assign animation_divider_size = section.settings.animation_divider_size
+  assign glow_animation_intensity = section.settings.glow_animation_intensity
+  assign glow_animation_speed = 10 | divided_by: section.settings.glow_animation_speed
+  if section.settings.glow_animation_flip
+    assign glow_animation_flip = -1
+  else
+    assign glow_animation_flip = 1
+  endif
+%}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    background-color: #ffffff;
+  }
+
+  #animated-divider-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  @media screen and (max-width: 750px) {
+    #animated-divider-section-{{ section.id }} {
+      padding-top: {{ section.settings.padding_top | times: 0.75 | round }}px;
+      padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round }}px;
+    }
+  }
+
+  {% if section.settings.color_scheme == 'gradient-background-1' %}
+    #animated-divider-section-{{ section.id }} {
+      background: var(--gradient-base-background-1);
+      {% if section.settings.glow_animation_flip %}
+        --glow_animation_flip: 1 !important;
+      {% else %}
+        --glow_animation_flip: -1 !important;
+      {% endif %}
+    }
+  {% endif %}
+{% endstyle %}
+
+<div 
+  id="animated-divider-section-{{ section.id }}"
+  class="pulsing-divider{% if glow_animation_intensity != 'normal' %} {{ glow_animation_intensity }}{% endif %} color-{{ section.settings.color_scheme }}" 
+  style="--divider-color: var(--color-background); --animation-duration: {{ glow_animation_speed }}s; --divider-size: {{ animation_divider_size }}; --glow_animation_flip: {{ glow_animation_flip }};"
+>
+  <div
+    class="pulse-overlay"
+  ></div>
+</div>
+
+{% schema %}
+{
+  "name": "Animated pulsing",
+  "settings": [
+    {
+      "type": "select",
+      "id": "animation_divider_size",
+      "label": "Section size",
+      "options": [
+        {
+          "value": "50px",
+          "label": "Small"
+        },
+        {
+          "value": "80px",
+          "label": "Medium"
+        },
+        {
+          "value": "120px",
+          "label": "Large"
+        }
+      ],
+      "default": "80px"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "custom-color-3",
+          "label": "t:sections.all.colors.custom_color_3.label"
+        },
+        {
+          "value": "custom-color-4",
+          "label": "t:sections.all.colors.custom_color_4.label"
+        },
+        {
+          "value": "custom-color-5",
+          "label": "t:sections.all.colors.custom_color_5.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-2",
+      "label": "Glow color"
+    },
+    {
+      "type": "select",
+      "id": "glow_animation_intensity",
+      "label": "Glow intensity",
+      "options": [
+        {
+          "value": "subtle",
+          "label": "Subtle"
+        },
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "strong",
+          "label": "Strong"
+        }
+      ],
+      "default": "normal"
+    },
+    {
+      "type": "range",
+      "id": "glow_animation_speed",
+      "min": 1,
+      "max": 6,
+      "step": 0.5,
+      "label": "Animation speed",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "glow_animation_flip",
+      "label": "Vertical flip",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Animated pulsing",
+      "category": "Decorative"
+    }
+  ]
+}
+{% endschema %}

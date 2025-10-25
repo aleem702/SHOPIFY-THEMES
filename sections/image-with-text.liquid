@@ -1,0 +1,902 @@
+<style>
+  .image-with-text .grid {
+    margin-bottom: 0;
+  }
+  
+  .image-with-text__grid {
+    gap: 2rem !important;
+    align-items: stretch;
+  }
+  
+  .image-with-text .grid__item {
+    position: relative;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .image-with-text__grid--reverse {
+      flex-direction: row-reverse;
+    }
+  }
+  
+  .image-with-text__media {
+    min-height: 100%;
+    overflow: visible;
+  }
+  
+  .image-with-text__media--small {
+    height: 19.4rem;
+  }
+  
+  .image-with-text__media--medium {
+    height: 29.6rem;
+  }
+  
+  .image-with-text__media--large {
+    height: 43.5rem;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .image-with-text__media--small {
+      height: 31.4rem;
+    }
+  
+    .image-with-text__media--medium {
+      height: 46rem;
+    }
+  
+    .image-with-text__media--large {
+      height: 69.5rem;
+    }
+  }
+  
+  .image-with-text__media--placeholder {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .image-with-text__media--placeholder:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(var(--color-foreground), 0.04);
+  }
+  
+  .image-with-text__media--placeholder.image-with-text__media--adapt {
+    height: 20rem;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .image-with-text__media--placeholder.image-with-text__media--adapt {
+      height: 30rem;
+    }
+  }
+  
+  .image-with-text__media--placeholder > svg {
+    position: absolute;
+    left: 50%;
+    max-width: 80rem;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    fill: currentColor;
+  }
+  
+  .image-with-text__content {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    align-self: center;
+    padding: 3rem calc(3rem / var(--font-body-scale)) 3rem;
+    position: relative;
+    z-index: 1;
+  }
+  
+  @media screen and (max-width: 990px) {
+    .bg-is-accent-1.text-is-accent-1,
+    .bg-is-accent-2.text-is-accent-2,
+    .bg-is-background-1.text-is-background-1,
+    .bg-is-background-2.text-is-background-2,
+    .bg-is-inverse.text-is-inverse {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  
+  .image-with-text .grid__item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+  
+  .image-with-text:not(.image-with-text--overlap)
+    .image-with-text__media-item:after {
+    border-radius: var(--media-radius);
+  }
+  
+  .image-with-text:not(.image-with-text--overlap)
+    .image-with-text__text-item:after {
+    border-radius: var(--text-boxes-radius);
+    box-shadow: var(--text-boxes-shadow-horizontal-offset)
+      var(--text-boxes-shadow-vertical-offset)
+      var(--text-boxes-shadow-blur-radius)
+      rgba(var(--color-shadow), var(--text-boxes-shadow-opacity));
+  }
+  
+  .image-with-text .image-with-text__media-item > div {
+    border-radius: var(--media-radius);
+    overflow: hidden;
+  }
+  
+  .image-with-text .global-media-settings {
+    overflow: hidden !important;
+  
+  }
+  
+  .image-with-text .image-with-text__text-item > div {
+    border-radius: var(--text-boxes-radius);
+    overflow: hidden;
+    box-shadow: var(--text-boxes-shadow-horizontal-offset)
+      var(--text-boxes-shadow-vertical-offset)
+      var(--text-boxes-shadow-blur-radius)
+      rgba(var(--color-shadow), var(--text-boxes-shadow-opacity));
+  }
+  
+  .image-with-text:not(.image-with-text--overlap)
+    .image-with-text__media-item
+    > div,
+  .image-with-text:not(.image-with-text--overlap)
+    .image-with-text__text-item
+    > div {
+    box-shadow: none;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__media-item:after,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid__item
+      .image-with-text__media,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__media
+      img {
+      /* border-bottom-right-radius: 0;
+      border-bottom-left-radius: 0; */
+    }
+  
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__text-item:after,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid__item
+      .image-with-text__content {
+      /* border-top-left-radius: 0;
+      border-top-right-radius: 0; */
+    }
+  
+    .image-with-text.collapse-borders:not(.image-with-text--overlap)
+      .image-with-text__content {
+      border-top: 0;
+    }
+  }
+  
+  .image-with-text__content--mobile-right > h2,
+  .image-with-text__content--mobile-right > div,
+  .image-with-text__content--mobile-right > p,
+  .image-with-text__content--mobile-right > a {
+    align-self: flex-end;
+    text-align: right;
+  }
+  
+  .image-with-text__content--mobile-center > h2,
+  .image-with-text__content--mobile-center > div,
+  .image-with-text__content--mobile-center > p,
+  .image-with-text__content--mobile-center > a {
+    align-self: center;
+    text-align: center;
+  }
+  
+  .image-with-text--overlap .image-with-text__content {
+    width: 90%;
+    margin: -3rem auto 0;
+  }
+  
+  @media screen and (min-width: 750px) {
+    .image-with-text__grid--reverse .image-with-text__content {
+      margin-left: auto;
+    }
+  
+    .image-with-text__content--bottom {
+      justify-content: flex-end;
+      align-self: flex-end;
+    }
+  
+    .image-with-text__content--top {
+      justify-content: flex-start;
+      align-self: flex-start;
+    }
+  
+    .image-with-text__content--mobile-right > h2,
+    .image-with-text__content--mobile-right > div,
+    .image-with-text__content--mobile-right > p,
+    .image-with-text__content--mobile-right > a  {
+      align-self: flex-end;
+      text-align: right;
+    }
+  
+     .image-with-text__content--mobile-left > h2,
+    .image-with-text__content--mobile-left > div,
+    .image-with-text__content--mobile-left > p,
+    .image-with-text__content--mobile-left > a {
+      align-self: flex-start;
+      text-align: left;
+    }
+  
+    
+     .image-with-text__content--mobile-`center` > h2,
+    .image-with-text__content--mobile-center > div,
+    .image-with-text__content--mobile-center > p,
+    .image-with-text__content--mobile-center > a{
+      align-self: center;
+      text-align: center;
+    }
+  
+    .image-with-text--overlap .image-with-text__text-item {
+      display: flex;
+      padding: 3rem 0;
+    }
+  
+    .image-with-text--overlap .image-with-text__content {
+      height: auto;
+      width: calc(100% + 4rem);
+      min-width: calc(100% + 4rem);
+      margin-top: 0;
+      margin-left: -4rem;
+    }
+  
+    .image-with-text--overlap
+      .image-with-text__grid--reverse
+      .image-with-text__content {
+      margin-left: 0;
+      margin-right: -4rem;
+    }
+  
+    .image-with-text--overlap
+      .image-with-text__grid--reverse
+      .image-with-text__text-item {
+      justify-content: flex-end;
+    }
+  
+    .image-with-text__media-item--top {
+      align-self: flex-start;
+    }
+  
+    .image-with-text__media-item--middle {
+      align-self: center;
+    }
+  
+    .image-with-text__media-item--bottom {
+      align-self: flex-end;
+    }
+  
+    .image-with-text__media-item--small,
+    .image-with-text__media-item--large + .image-with-text__text-item {
+      flex-grow: 0;
+    }
+    
+  
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid:not(.image-with-text__grid--reverse)
+      .image-with-text__media-item:after,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid:not(.image-with-text__grid--reverse)
+      .image-with-text__media,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid:not(.image-with-text__grid--reverse)
+      .image-with-text__media
+      img,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__grid--reverse
+      .image-with-text__text-item:after,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__grid--reverse
+      .image-with-text__content,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__grid--reverse
+      .image-with-text__content:after {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid:not(.image-with-text__grid--reverse)
+      .image-with-text__text-item:after,
+    /* .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid:not(.image-with-text__grid--reverse)
+      .image-with-text__content, */
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .grid:not(.image-with-text__grid--reverse)
+      .image-with-text__content:after,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__grid--reverse
+      .image-with-text__media-item:after,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__grid--reverse
+      .image-with-text__media,
+    .image-with-text.collapse-corners:not(.image-with-text--overlap)
+      .image-with-text__grid--reverse
+      .image-with-text__media
+      img {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  
+    .image-with-text.collapse-borders:not(.image-with-text--overlap)
+      .grid:not(.image-with-text__grid--reverse)
+      .image-with-text__content {
+      border-left: 0;
+    }
+  
+    .image-with-text.collapse-borders:not(.image-with-text--overlap)
+      .image-with-text__grid--reverse
+      .image-with-text__content {
+      border-right: 0;
+    }
+  }
+  
+  .image-with-text:not(.collapse-corners, .image-with-text--overlap)
+    .image-with-text__media-item {
+    z-index: 2;
+  }
+  
+  .image-with-text__content {
+    border-radius: var(--text-boxes-radius);
+    box-shadow: var(--text-boxes-shadow-horizontal-offset)
+      var(--text-boxes-shadow-vertical-offset)
+      var(--text-boxes-shadow-blur-radius)
+      rgba(var(--color-shadow), var(--text-boxes-shadow-opacity));
+    word-break: break-word;
+  }
+  
+  @media screen and (min-width: 990px) {
+    .image-with-text__content {
+      padding: 6rem 7rem 7rem;
+    }
+  }
+  
+  .image-with-text__content > :is(h2, div, p, a) + :is(h2, div, p, a),
+  {
+    margin-top: 2rem;
+  }
+  
+  .image-with-text__content > .image-with-text__text:empty ~ a {
+    margin-top: 2rem;
+  }
+  
+  .image-with-text__content > :first-child:is(.image-with-text__heading),
+  .image-with-text__text--caption + .image-with-text__heading,
+  .image-with-text__text--caption:first-child {
+    margin-top: 0;
+  }
+  
+  .image-with-text__content :last-child:is(.image-with-text__heading),
+  .image-with-text__text--caption {
+    margin-bottom: 0;
+  }
+  
+  .image-with-text__content .button + .image-with-text__text {
+    margin-top: 2rem;
+  }
+  
+  .image-with-text__content .image-with-text__text + .button {
+    margin-top: 3rem;
+  }
+  
+  .image-with-text__heading {
+    margin-bottom: 0;
+  }
+  
+  .image-with-text__text p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  @media screen and (max-width: 749px) {
+    .collapse-padding .image-with-text__grid .image-with-text__content {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    
+  /* .image-with-text .global-media-settings {
+    border-radius: 0px;
+  } */
+  }
+  
+  @media screen and (min-width: 750px) {
+    .collapse-padding
+      .image-with-text__grid:not(.image-with-text__grid--reverse)
+      .image-with-text__content:not(.image-with-text__content--desktop-center) {
+      padding-right: 0;
+    }
+  
+    .collapse-padding
+      .image-with-text__grid--reverse
+      .image-with-text__content:not(.image-with-text__content--desktop-center) {
+      padding-left: 0;
+    }
+  }
+  
+  /* check for flexbox gap in older Safari versions */
+  @supports not (inset: 10px) {
+    .image-with-text .grid {
+      margin-left: 0;
+    }
+  }
+  
+  /*
+    Multirow
+    note: consider removing from this stylesheet if multirow-specific styles increase signficantly
+  */
+  .multirow__inner {
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--grid-mobile-vertical-spacing);
+  }
+  
+  @media screen and (min-width: 750px) {
+    .multirow__inner {
+      row-gap: var(--grid-desktop-vertical-spacing);
+    }
+  }
+  
+</style>
+
+{%- liquid
+   assign global_heading_size = settings.enable_global_heading_font_size
+   assign global_body_size = settings.enable_global_body_font_size
+   assign global_color = settings.enable_global_color
+-%}
+
+{%- style -%}
+  {%- if request.visual_preview_mode -%}
+    {% comment %} don't want fade-in animation in preview mode because it messes up preview {% endcomment %}
+    .animation_section,
+    .animation_section * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+  {%- endif -%}
+
+  #shopify-section-{{ section.id }} .section__image_with_text {
+    padding: 5px 0;
+    margin: -1px 0;
+  }
+  
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .image-with-text .image-with-text__content {
+      padding: 0 10px !important;
+    }
+  }
+
+  #block-description-text-{{ section.id }} p {
+    font-size: {% if global_body_size %}var(--global-body-text-font-size){% else %}{{ section.settings.font_size }}px{% endif %} !important;
+    color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ section.settings.body_color }}{% endif %};
+  }
+
+  #block-heading-{{ section.id }} {
+    font-size: {% if global_heading_size %}var(--font-heading-size){% else %}{{ section.settings.desktop_font_size }}px{% endif %};
+    color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ section.settings.heading_color }}{% endif %};
+    --color-highlighted-color: {{ section.settings.heading_highlighted_color }};
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+  {%- if section.settings.heading_use_gradient -%}
+    #block-heading-{{ section.id }} strong {
+      background: {% if section.settings.heading_gradient_color != blank %}{{ section.settings.heading_gradient_color }}{% else %}var(--gradient-base-background-1){% endif %};
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  {%- endif -%}
+
+  @media (max-width: 768px) {
+    #block-heading-{{ section.id }} {
+      font-size: {% if global_heading_size %}var(--font-heading-mob-size){% else %}{{ section.settings.mobile_font_size }}px{% endif %};
+      margin-bottom: 1rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="rtl">
+  <div class="color-{{ section.settings.section_color_scheme }} section__image_with_text">
+    <div class="image-with-text image-with-text--no-overlap page-width isolate{% if false and settings.text_boxes_border_opacity > 0 and settings.media_border_thickness > 0 and settings.media_border_opacity > 0 %} collapse-borders{% endif %} section-{{ section.id }}-padding">
+      <div 
+        class="image-with-text__grid grid grid--gapless grid--1-col grid--{% if section.settings.desktop_image_width == 'medium' %}2-col-tablet{% else %}3-col-tablet{% endif %}{% if section.settings.layout == 'text_first' %} image-with-text__grid--reverse{% endif %} gradient"
+      >
+        <div
+          class="image-with-text__media-item image-with-text__media-item--{{ section.settings.desktop_image_width }} image-with-text__media-item--middle grid__item gradient"
+          style="padding: 2rem 0;"
+        >
+          <div
+            class="image-with-text__media image-with-text__media--{{ section.settings.height }} gradient global-media-settings {% if section.settings.image != blank %}media{% else %}image-with-text__media--placeholder placeholder{% endif %}"
+            {% if section.settings.height == 'adapt' and section.settings.image != blank %}
+              style="padding-bottom: {{ 1 | divided_by: section.settings.image.aspect_ratio | times: 100 }}%;"
+            {% endif %}
+          >
+            {%- if section.settings.image != blank -%}
+              {%- capture sizes -%}
+                (min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px,
+                (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)
+              {%- endcapture -%}
+              {% comment %}
+                The <link rel="preload"> is not fully accurate for this image usage.
+                - The <img> uses srcset and sizes, so the browser may not pick the 1800px version.
+                - For best accuracy, preload the *largest* or *most likely* image size that will be used above the fold, matching the first srcset candidate for the expected viewport.
+                - Also, fetchpriority="high" is ignored on <link rel="preload">, it's only for <img>.
+                - If you want to preload, use the most likely size for LCP, e.g. 750w or 1500w, depending on layout.
+                - Optionally, add an <img> fetchpriority="high" attribute for LCP.
+              {% endcomment %}
+              {% comment %} <img 
+                src="{{ section.settings.image | image_url: width: 1800 }}" 
+                {% if section.settings.defer_loading_image %}loading="lazy"{% else %}fetchpriority="high"{% endif %}
+                sizes="{{ sizes }}" 
+                srcset="
+                  {{ section.settings.image | image_url: width: 165 }} 165w,
+                  {{ section.settings.image | image_url: width: 360 }} 360w,
+                  {{ section.settings.image | image_url: width: 535 }} 535w,
+                  {{ section.settings.image | image_url: width: 750 }} 750w,
+                  {{ section.settings.image | image_url: width: 1070 }} 1070w,
+                  {{ section.settings.image | image_url: width: 1500 }} 1500w
+                " 
+                alt="{{ section.settings.image.alt | escape }}"
+                style="border-radius: var(--media-radius) !important;"
+                width="100%"
+                height="auto"
+              > {% endcomment %}
+
+              <img 
+                src="{{ section.settings.image | image_url: width: 1800 }}" 
+                {% if section.settings.defer_loading_image %}
+                  loading="lazy"
+                {% else %}
+                  fetchpriority="high"
+                {% endif %}
+                sizes="{{ sizes }}" 
+                srcset="
+                    {{ section.settings.image | image_url: width: 165 }} 165w,
+                  {{ section.settings.image | image_url: width: 360 }} 360w,
+                  {{ section.settings.image | image_url: width: 535 }} 535w,
+                  {{ section.settings.image | image_url: width: 750 }} 750w,
+                  {{ section.settings.image | image_url: width: 1070 }} 1070w,
+                  {{ section.settings.image | image_url: width: 1500 }} 1500w
+                " 
+                alt="{{ section.settings.image.alt | escape }}"
+                style="border-radius: var(--media-radius) !important;"
+                width="100%"
+                height="auto"
+              />
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+        </div>
+        <div 
+          class="image-with-text__text-item grid__item gradient"
+          style="padding: 2rem 0;"
+        >
+          <div
+            id="ImageWithText--{{ section.id }}"
+            class="image-with-text__content image-with-text__content--middle image-with-text__content--desktop-{{ section.settings.desktop_content_alignment }} image-with-text__content--mobile-center image-with-text__content--{{ section.settings.height }} gradient content-container bg-is-{{ section.settings.section_color_scheme }}"
+          >
+            {%- if section.settings.heading != blank -%}
+              <h2
+                id="block-heading-{{ section.id }}"
+                class="title image-with-text__heading {{ section.settings.heading_size }}"
+                {{ section.shopify_attributes }}
+              >
+                {{ section.settings.heading }}
+              </h2>
+            {%- endif -%}
+
+            {%- if section.settings.text != blank -%}
+              <div
+                id="block-description-text-{{ section.id }}"
+                class="image-with-text__text sw-base-text-color rte body"
+                style="--color-highlighted-color: {{ section.settings.body_highlighted_color }}; {% if section.settings.layout == 'image_first' %}margin-bottom: 0;{% endif %}"
+                {{ section.shopify_attributes }}
+              >
+                {{ section.settings.text }}
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.button_text != blank -%}
+              <a {% if section.settings.button_link == blank %}role="link" aria-disabled="true"{% else %}href="{{ section.settings.button_link }}"{% endif %} class="button button--primary">{{ section.settings.button_text }}</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Image with text",
+  "class": "section animation_section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.image-with-text.settings.image.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "defer_loading_image",
+      "label": "Defer loading image",
+      "info": "If enabled, the image will load only when it is about to be visible on the screen. This can help your page load faster, especially on slower connections. but only enable this when this section is not loaded on top of the page and its somewhere down in the screen."
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Lorem ipsum",
+      "label": "t:sections.image-with-text.settings.heading.label"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>",
+      "label": "t:sections.image-with-text.settings.text.label"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:sections.image-with-text.settings.button_text.label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:sections.image-with-text.settings.button_link.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.image-with-text.settings.header.content"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "image_first",
+          "label": "t:sections.image-with-text.settings.layout.options__1.label"
+        },
+        {
+          "value": "text_first",
+          "label": "t:sections.image-with-text.settings.layout.options__2.label"
+        }
+      ],
+      "default": "image_first",
+      "label": "Image placement"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.image-with-text.settings.height.options__1.label"
+        },
+        {
+          "value": "small",
+          "label": "t:sections.image-with-text.settings.height.options__2.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.image-with-text.settings.height.options__3.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.image-with-text.settings.height.options__4.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.image-with-text.settings.height.label"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.image-with-text.settings.desktop_content_alignment.options__3.label"
+        }
+      ],
+      "default": "center",
+      "label": "t:sections.image-with-text.settings.desktop_content_alignment.label"
+    },
+    {
+      "type": "select",
+      "id": "desktop_image_width",
+      "options": [
+        {
+          "value": "small",
+          "label": "t:sections.image-with-text.settings.desktop_image_width.options__1.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.image-with-text.settings.desktop_image_width.options__2.label"
+        },
+        {
+          "value": "large",
+          "label": "t:sections.image-with-text.settings.desktop_image_width.options__3.label"
+        }
+      ],
+      "default": "medium",
+      "label": "t:sections.image-with-text.settings.desktop_image_width.label"
+    },
+    {
+      "type": "range",
+      "id": "desktop_font_size",
+      "label": "t:sections.image-with-text.settings.desktop_font_size.label",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "label": "t:sections.image-with-text.settings.mobile_font_size.label",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "t:sections.image-with-text.settings.font_size.label",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "t:sections.image-with-text.settings.heading_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "heading_highlighted_color",
+      "label": "t:sections.image-with-text.settings.heading_highlighted_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "t:sections.image-with-text.settings.body_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_highlighted_color",
+      "label": "t:sections.image-with-text.settings.body_highlighted_color.label",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_use_gradient",
+      "label": "Use gradient for heading",
+      "info": "Any text formatted as bold within the heading will be converted to a gradient.",
+      "default": false
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient_color",
+      "label": "Heading gradient color"
+    },
+    {
+      "type": "select",
+      "id": "section_color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-1",
+      "label": "t:sections.image-with-text.settings.section_color_scheme.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 12
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.image-with-text.presets.name"
+    }
+  ]
+}
+{% endschema %}

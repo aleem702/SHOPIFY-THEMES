@@ -1,0 +1,154 @@
+{% comment %} 
+  Renders icon with text block
+  
+  Accepts: 
+  - block: {Object} passes in the block information.
+  
+  
+  Usage:
+  {% render 'icon-with-text', 
+  block: block
+  %} 
+{% endcomment %}
+{%- liquid
+  assign heading_1_empty = false
+  assign heading_2_empty = false
+  assign heading_3_empty = false
+  assign text_only_all_items = true
+
+  if block.settings.heading_1 == empty
+    assign heading_1_empty = true
+  endif
+
+  if block.settings.heading_2 == empty
+    assign heading_2_empty = true
+  endif
+
+  if block.settings.heading_3 == empty
+    assign heading_3_empty = true
+  endif
+
+  if heading_1_empty == false and block.settings.icon_1 != 'none' or block.settings.image_1 != null
+    assign text_only_all_items = false
+  elsif heading_2_empty == false and block.settings.icon_2 != 'none' or block.settings.image_2 != null
+    assign text_only_all_items = false
+  elsif heading_3_empty == false and block.settings.icon_3 != 'none' or block.settings.image_3 != null
+    assign text_only_all_items = false
+  endif
+
+  # Global settings
+  assign global_heading_size = settings.enable_global_heading_font_size
+  assign global_body_size = settings.enable_global_body_font_size
+  assign global_color = settings.enable_global_color
+-%}
+
+{% style %}
+  .product-block-{{ block.id }}{
+    padding-top: {{ block.settings.padding_top }}px;
+    padding-bottom: {{ block.settings.padding_bottom }}px;
+  }
+
+  .icon-with-text--horizontal span.material-icon,
+  .icon-with-text--vertical span.material-icon {
+    font-size: {% if block.settings.icon_size == 'small' %}24px{% elsif block.settings.icon_size == 'medium' %}28px{% else %}32px{% endif %} !important;
+    color: {{ block.settings.custom_icon_color }} !important;
+  }
+  .icon-with-text--horizontal span.material-icon svg,
+  .icon-with-text--vertical span.material-icon svg {
+    width: {% if block.settings.icon_size == 'small' %}24px{% elsif block.settings.icon_size == 'medium' %}28px{% else %}32px{% endif %} !important;
+    height: {% if block.settings.icon_size == 'small' %}24px{% elsif block.settings.icon_size == 'medium' %}28px{% else %}32px{% endif %} !important;
+    fill: {{ block.settings.custom_icon_color }} !important;
+  }
+
+  .icon-with-text--horizontal span.material-icon {
+    margin-bottom: var(--icon-spacing);
+  }
+
+  .icon-with-text--horizontal .h4,
+  .icon-with-text--vertical .h4 {
+    padding-top: 0;
+    font-size: {% if global_body_size %}var(--global-body-text-font-size){% else %}{{ block.settings.font_size }}px{% endif %} !important;
+    line-height: {% if global_body_size %}calc(var(--global-body-text-font-size) + 10px){% else %}{{ block.settings.font_size | plus: 10 }}px{% endif %} !important;
+    color: {% if global_color %}rgb(var(--color-base-text)){% else %}{{ block.settings.text_color }}{% endif %} !important;
+  }
+{% endstyle %}
+
+<ul class="icon-with-text icon-with-text--icon-{{ block.settings.icon_size }} icon-with-text--{{ block.settings.layout }} list-unstyled{% if text_only_all_items %} icon-with-text--text-only{% endif %}">
+  {%- unless heading_1_empty -%}
+    <li class="icon-with-text__item">
+      {%- if block.settings.icon_1 != blank -%}
+        <span class="material-icon material-symbols-outlined notranslate">
+          {{  block.settings.icon_1 }}
+        </span>
+      {%- endif -%}
+      
+      {%- if block.settings.image_1 != blank -%}
+        <img
+          src="{{ block.settings.image_1 | image_url }}"
+          {%- if block.settings.image_1.alt != blank -%}
+            alt="{{ block.settings.image_1.alt | escape }}"
+          {%- else -%}
+            role="presentation"
+          {%- endif -%}
+          height="auto"
+          width="auto"
+          loading="lazy"
+        >
+      {%- endif -%}
+      
+      <span class="h4">{{ block.settings.heading_1 }}</span>
+    </li>
+  {%- endunless -%}
+
+  {%- unless heading_2_empty -%}
+    <li class="icon-with-text__item">
+      {%- if block.settings.icon_2 != blank -%}
+        <span class="material-icon material-symbols-outlined notranslate">
+          {{  block.settings.icon_2 }}
+        </span>
+      {%- endif -%}
+      
+      {%- if block.settings.image_2 != blank -%}
+        <img
+          src="{{ block.settings.image_2 | image_url }}"
+          {%- if block.settings.image_2.alt != blank -%}
+            alt="{{ block.settings.image_2.alt | escape }}"
+          {%- else -%}
+            role="presentation"
+          {%- endif -%}
+          height="auto"
+          width="auto"
+          loading="lazy"
+        >
+      {%- endif -%}
+      
+      <span class="h4">{{ block.settings.heading_2 }}</span>
+    </li>
+  {%- endunless -%}
+
+  {%- unless heading_3_empty -%}
+    <li class="icon-with-text__item">
+      {%- if block.settings.icon_3 != blank -%}
+        <span class="material-icon material-symbols-outlined notranslate">
+          {{  block.settings.icon_3 }}
+        </span>
+      {%- endif -%}
+      
+      {%- if block.settings.image_3 != blank -%}
+        <img
+          src="{{ block.settings.image_3 | image_url }}"
+          {%- if block.settings.image_3.alt != blank -%}
+            alt="{{ block.settings.image_3.alt | escape }}"
+          {%- else -%}
+            role="presentation"
+          {%- endif -%}
+          height="auto"
+          width="auto"
+          loading="lazy"
+        >
+      {%- endif -%}
+      
+      <span class="h4">{{ block.settings.heading_3 }}</span>
+    </li>
+  {%- endunless -%}
+</ul>

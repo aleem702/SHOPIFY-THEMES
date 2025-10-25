@@ -1,0 +1,420 @@
+{%- liquid
+  # Section settings
+  assign section_heading = section.settings.section_heading
+  assign header_size = section.settings.font_size
+  assign header_mobile_size = section.settings.mobile_font_size
+  assign header_color = section.settings.header_color
+  assign scrolling_velocity = section.settings.scrolling_velocity
+  assign pause_hover = section.settings.pause_hover
+  assign slider_gap = section.settings.slider_gap
+  assign slider_direction = section.settings.slider_direction
+  assign icon_width = section.settings.icon_width
+
+  # Global settings
+  assign global_heading_size = settings.enable_global_heading_font_size
+  assign global_color = settings.enable_global_color
+-%}
+
+{% style %}
+  #shopify-section-{{ section.id }} .section__scrolling_images {
+    padding: 5px 0;
+  }
+  
+  .section-{{ section.id }}-settings {
+    margin: 0 auto;
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+
+  .scrolling-images-slider_{{ section.id }} {
+    position: relative;
+  }
+
+  .scrolling-images-slider_placeholder {
+    width: 100%;
+  }
+
+  .slide-{{ section.id }} {
+    display: block;
+    flex: 0 0 {{ icon_width | times: 0.85 | round: 0 }}px;
+    width: 100%;
+  }
+
+  .slide-{{ section.id }} img {
+    border-radius: var(--media-radius);
+  }
+
+  .slide-{{ section.id }} img,
+  .slide-{{ section.id }} svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .scrolling-horizontal-track-{{ section.id }} {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .scrolling-horizontal-track-{{ section.id }}.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .track-horizontal-{{ section.id }} {
+    padding-left: {{ slider_gap }}px;
+    display: flex;
+    flex-shrink: 0;
+    width: calc(({{ icon_width | times: 0.85 | round: 0 }}px * {{ section.blocks.size }}) + ({{ slider_gap }}px * {{ section.blocks.size }}));
+    gap: {{ slider_gap }}px;
+    justify-content: flex-start;
+    align-items: center;
+    white-space: nowrap;
+    will-change: transform;
+    animation: scrolling-horizontal-track-{{ slider_direction }} {{ 20 | divided_by: scrolling_velocity }}s linear infinite;
+  }
+
+  @keyframes scrolling-horizontal-track-left {
+    0% { transform: translateZ(0); visibility: visible; }
+    100% { transform: translate3d(-100%, 0, 0); }
+  }
+
+  @keyframes scrolling-horizontal-track-right {
+    0% { transform: translate3d(-100%, 0, 0); visibility: visible; }
+    100% { transform: translateZ(0); }
+  }
+
+  .scrolling-images-heading-{{ section.id }} {
+    font-size: {% if global_heading_size %}var(--font-heading-mob-size){% else %}{{ header_mobile_size }}px{% endif %};
+    color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ header_color }}{% endif %};
+    text-align: {{ section.settings.heading_alignment }};
+  }
+
+  @media screen and (min-width: 768px) {
+    .scrolling-images-heading-{{ section.id }} {
+      font-size: {% if global_heading_size %}var(--font-heading-size){% else %}{{ header_size }}px{% endif %};
+    }
+
+    .slide-{{ section.id }} {
+      flex: 0 0 {{ icon_width }}px;
+      width: 100%;
+    }
+
+    .track-horizontal-{{ section.id }} {
+      padding-left: {{ slider_gap }}px;
+      width: calc(({{ icon_width }}px * {{ section.blocks.size }}) + ({{ slider_gap }}px * {{ section.blocks.size }}));
+      gap: {{ slider_gap }}px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .scrolling-images-slider_{{ section.id }} {
+      padding: 0 15px;
+    }
+  }
+
+  {% if pause_hover %}
+    .scrolling-horizontal-track-{{ section.id }}:hover .track-horizontal-{{ section.id }} {
+      animation-play-state: paused;
+    }
+  {% endif %}
+  
+  {%- if section.settings.heading_use_gradient -%}
+    #scrolling-images-slider-heading strong {
+      background: {% if section.settings.heading_gradient_color != blank %}{{ section.settings.heading_gradient_color }}{% else %}var(--gradient-base-background-1){% endif %};
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  {%- endif -%}
+{% endstyle %}
+
+{%- capture loop -%}
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'slide' -%}
+        <a class="slide-{{ section.id }}" href="{{ block.settings.link }}">
+          {%- liquid
+            assign image = block.settings.image
+            assign default_image = 'atlas_logo_300x.png' | asset_url
+            assign image_width = icon_width | times: 0.85 | round
+          -%}
+
+          {%- if image != blank -%}
+            {%- assign retina_width = image_width | times: 2.5 -%}
+            {{ image | image_url: width: retina_width | 
+              image_tag: 
+                class: 'image-content__image',
+                alt: image.alt, 
+                loading: 'lazy',
+                widths: '200, 300, 400, 500, 600, 800',
+                sizes: "auto"
+            }}
+          {%- else -%}
+            <img 
+              class="image-content__image"
+              src="{{ default_image }}"
+              alt="Default image"
+              loading="lazy"
+              width="170"
+              height="70"
+            >
+          {%- endif -%}
+        </a>
+    {%- endcase -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+<div class="color-{{ section.settings.color_scheme }} gradient section__scrolling_images">
+  <section class="section-{{ section.id }}-settings" data-section-id="{{ section.id }}">
+    <div class="page-width">
+      {%- if section_heading != blank -%}
+        <h2
+          class="title scrolling-images-heading-{{ section.id }}"
+          id="scrolling-images-slider-heading"
+          style="--color-highlighted-color: {{ section.settings.header_highlighted_color }}; margin-top: 0; padding-top: 1rem;"
+        >
+          {{ section_heading }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div class="scrolling-images-slider_{{ section.id }}" id="scrolling-images-slider">
+      <div class="scrolling-horizontal-track-{{ section.id }} marquee-{{ section.settings.direction }} fade-in-child">
+        {%- for i in (1..7) -%}
+          <div class="track-horizontal-{{ section.id }} outer_flex">
+            {{ loop }}
+          </div>
+        {%- endfor -%}
+      </div>
+      {% unless section.settings.color_scheme == 'gradient-background-1' %}<div class="fade-in__left_container"></div>{% endunless %}
+      {% unless section.settings.color_scheme == 'gradient-background-1' %}<div class="fade-in__right_container"></div>{% endunless %}
+    </div>
+  </section>
+
+  <script>
+    function initScrollingLogoCloudPro() {
+      const htmlElement = document.documentElement;
+      const track = document.querySelector('.scrolling-horizontal-track-{{ section.id }}');
+
+      window.requestAnimationFrame(() => {  
+        if (window.getComputedStyle(htmlElement).getPropertyValue('direction') === 'rtl') {
+          track.classList.add('reverse');
+        }
+      })
+    }
+
+    document.addEventListener('DOMContentLoaded', initScrollingLogoCloudPro);
+
+    if (Shopify.designMode) {
+      document.addEventListener('shopify:section:unload', initScrollingLogoCloudPro);
+      document.addEventListener('shopify:section:load', initScrollingLogoCloudPro);
+    }
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Scrolling images",
+  "class": "section animation-section",
+  "settings": [
+    {
+      "id": "section_heading",
+      "type": "inline_richtext",
+      "label": "Heading",
+      "default": "Trusted by"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "scrolling_velocity",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "label": "Scroll speed",
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "slider_gap",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Item gap",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "icon_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Image width",
+      "default": 150
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Center", "value": "center" },
+        { "label": "Right", "value": "right" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "select",
+      "id": "slider_direction",
+      "label": "Direction",
+      "default": "right",
+      "options": [
+        { "label": "Left", "value": "left" },
+        { "label": "Right", "value": "right" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "pause_hover",
+      "label": "Pause on hover",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "header_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "header_highlighted_color",
+      "label": "Bolded heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "checkbox",
+      "id": "heading_use_gradient",
+      "label": "Use gradient for heading",
+      "info": "Any text formatted as bold within the heading will be converted to a gradient.",
+      "default": false
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient_color",
+      "label": "Heading gradient color"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        { "value": "accent-1", "label": "t:sections.all.colors.accent_1.label" },
+        { "value": "accent-2", "label": "t:sections.all.colors.accent_2.label" },
+        { "value": "accent-3", "label": "t:sections.all.colors.accent_3.label" },
+        { "value": "custom-color-1", "label": "t:sections.all.colors.custom_color_1.label" },
+        { "value": "custom-color-2", "label": "t:sections.all.colors.custom_color_2.label" },
+        { "value": "custom-color-3", "label": "t:sections.all.colors.custom_color_3.label" },
+        { "value": "custom-color-4", "label": "t:sections.all.colors.custom_color_4.label" },
+        { "value": "custom-color-5", "label": "t:sections.all.colors.custom_color_5.label" },
+        { "value": "inverse", "label": "t:sections.all.colors.inverse.label" },
+        { "value": "gradient-background-1", "label": "t:sections.all.colors.gradient_background_1.label" }
+      ],
+      "default": "accent-1",
+      "label": "Section color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Image",
+      "type": "slide",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Tip: Crop out all white space of images."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scrolling image",
+      "category": "Custom",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}

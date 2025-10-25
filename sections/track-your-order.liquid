@@ -1,0 +1,337 @@
+{{ 'section-contact-form.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+   assign global_heading_size = settings.enable_global_heading_font_size
+   assign global_body_size = settings.enable_global_body_font_size
+   assign global_color = settings.enable_global_color
+-%}
+
+{%- style -%}
+  {%- if request.visual_preview_mode -%}
+    {% comment %} don't want fade-in animation in preview mode because it messes up preview {% endcomment %}
+    .animation_section,
+    .animation_section * {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+  {%- endif -%}
+  
+  #shopify-section-{{ section.id }} .section__track_order {
+    padding: 5px 0;
+  }
+  
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+  
+  #text-{{ section.id }} {
+    font-size: {% if global_body_size %}var(--global-body-text-font-size){% else %}{{ section.settings.body_font_size }}px{% endif %};
+    line-height: {% if global_body_size %}calc(var(--global-body-text-font-size) + 8px){% else %}{{ section.settings.body_font_size | plus: 8 }}px{% endif %};
+    color: {% if section.settings.body_color != blank %}{{ section.settings.body_color }}{% else %}rgba(var(--color-base-text)){% endif %};
+  }
+
+  #text-{{ section.id }} strong {
+    color: {{ section.settings.bolded_body_color }};
+  }
+
+  #heading-{{ section.id }} {
+    font-size: {% if global_heading_size %}var(--font-heading-size) !important{% else %}{{ section.settings.heading_size }}px !important{% endif %};
+    line-height: {% if global_heading_size %}calc(var(--font-heading-size) + 8px) !important{% else %}{{ section.settings.heading_size | plus: 8 }}px !important{% endif %};
+    color: {% if global_color %}rgb(var(--color-base-heading)){% else %}{{ section.settings.heading_color }}{% endif %};
+    --color-highlighted-color: {{ section.settings.bolded_heading_color }};
+    margin-top: 0;
+  }
+
+  @media (max-width: 768px) {
+    #heading-{{ section.id }} {
+      font-size: {% if global_heading_size %}var(--font-heading-mob-size) !important{% else %}{{ section.settings.heading_mob_size }}px !important{% endif %};
+      line-height: {% if global_heading_size %}calc(var(--font-heading-mob-size) + 8px) !important{% else %}{{ section.settings.heading_mob_size | plus: 8 }}px !important{% endif %};
+    }
+  }
+
+  .section-text-{{ section.id }} {
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .tracking-form-container {
+    position: relative;
+    margin-top: 30px;
+  }
+
+  .tracking-results {
+    margin-top: 45px;
+  }
+{%- endstyle -%}
+
+<div class="section__track_order color-{{ section.settings.color_scheme2 }}">
+  <div class="section-{{ section.id }}-padding">
+    <div class="page-width">
+      <div class="order-tracking-card color-{{ section.settings.color_scheme }}">
+        <div class="order-tracking-form">
+          {%- if section.settings.heading != blank -%}
+            <h2 id="heading-{{ section.id }}" class="title title-wrapper--no-top-margin">
+              {{ section.settings.heading }}
+            </h2>
+          {%- endif -%}
+          
+          <div id="text-{{ section.id }}" class="body-text section-text-{{ section.id }}">
+            {{ section.settings.text }}
+          </div>
+          
+          <div class="tracking-form-container">
+            <div class="field">
+              <input 
+                id="tracking-number-input" 
+                class="field__input" 
+                name="tracking-number" 
+                placeholder="Tracking Number"
+              >
+              <label class="field__label" for="tracking-number">Tracking Number</label>
+            </div>
+            
+            <div class="contact__button track-button">
+              <button type="button" class="button button--full-width split-slide-button" onclick="callTrackingAPI()">
+                <div class="split-slide-right"></div>
+                <span class="button-text">{{ section.settings.button_label }}</span>
+              </button>
+            </div>
+          </div>
+          
+          <div id="17trackContainer" class="tracking-results"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script defer type="text/javascript" src="//www.17track.net/externalcall.js"></script>
+<script>
+  function callTrackingAPI() {
+    const trackingNumber = document.getElementById('tracking-number-input').value;
+    if (!trackingNumber) {
+      alert('Enter tracking number');
+      return;
+    }
+    
+    YQV5.trackSingle({
+      YQ_Num: trackingNumber,
+      YQ_ContainerId: '17trackContainer',
+    });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Track your order",
+  "class": "section animation_section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Track your order",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Body",
+      "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas imperdiet nisi eget gravida vestibulum. Ut rutrum facilisis leo, ac vulputate elit consectetur ut. Morbi rhoncus mauris ligula, et pulvinar nulla rhoncus sit amet. Pellentesque a quam id odio malesuada auctor.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Track"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Desktop heading size",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "heading_mob_size",
+      "min": 10,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Mobile heading size",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "body_font_size",
+      "min": 8,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Body font size",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Styling"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bolded_heading_color",
+      "label": "Bolded heading Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "body_color",
+      "label": "Body color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "bolded_body_color",
+      "label": "Bolded body color",
+      "default": "#000000"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme2",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "custom-color-3",
+          "label": "t:sections.all.colors.custom_color_3.label"
+        },
+        {
+          "value": "custom-color-4",
+          "label": "t:sections.all.colors.custom_color_4.label"
+        },
+        {
+          "value": "custom-color-5",
+          "label": "t:sections.all.colors.custom_color_5.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "t:sections.all.colors.gradient_background_1.label"
+        }
+      ],
+      "default": "accent-1",
+      "label": "Primary color scheme"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "options": [
+        {
+          "value": "accent-1",
+          "label": "t:sections.all.colors.accent_1.label"
+        },
+        {
+          "value": "accent-2",
+          "label": "t:sections.all.colors.accent_2.label"
+        },
+        {
+          "value": "accent-3",
+          "label": "t:sections.all.colors.accent_3.label"
+        },
+        {
+          "value": "custom-color-1",
+          "label": "t:sections.all.colors.custom_color_1.label"
+        },
+        {
+          "value": "custom-color-2",
+          "label": "t:sections.all.colors.custom_color_2.label"
+        },
+        {
+          "value": "inverse",
+          "label": "t:sections.all.colors.inverse.label"
+        },
+        {
+          "value": "gradient-background-1",
+          "label": "Background gradient"
+        }
+      ],
+      "default": "accent-2",
+      "label": "Secondary color scheme"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 24
+    }
+  ],
+  "presets": [
+    {
+      "name": "Track your order"
+    }
+  ]
+}
+{% endschema %}
