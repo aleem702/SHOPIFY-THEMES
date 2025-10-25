@@ -197,7 +197,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Description",
-            "content": "<p>Transform your cherished moments into breathtaking 3D displays with this exquisite crystal sphere. A perfect blend of artistry and technology, it immerses viewers in vivid memories captured in stunning detail.<ul><li>Personalize display with videos and audio</li><li>Experience memories in stunning 1080p clarity</li><li>User-friendly interface for easy navigation</li><li>Unique artistic design enhances any decor</li></ul></p>",
+            "content": "<p>Transform your cherished moments into breathtaking 3D displays with this exquisite Memory Chamber. A perfect blend of artistry and technology, it immerses viewers in vivid memories captured in stunning detail.</p><ul><li>Personalize display with videos and audio</li><li>Experience memories in stunning 1080p clarity</li><li>User-friendly interface for easy navigation</li><li>Unique artistic design enhances any decor</li></ul><p></p>",
             "collapsible_font_size": 16,
             "coll_heading_color": "#000000",
             "coll_heading_highlighted_color": "#000000",
@@ -213,7 +213,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Most Common Questions",
-            "content": "<p><b>Question 1:</b> What types of video and audio formats can I upload to the sphere?<br/><b>Answer 1:</b> The crystal sphere supports MP4 video and MP3 audio formats, allowing you to easily personalize your display with your favorite media.<br/><br/><b>Question 2:</b> How do I upload videos and audio to the sphere?<br/><b>Answer 2:</b> Uploading your selected media files is simple and user-friendly. Just follow the intuitive controls to transfer your video and audio files onto the device, and enjoy your customized display.<br/><br/><b>Question 3:</b> What is the resolution of the display, and how does it enhance viewing experience?<br/><b>Answer 3:</b> The display features a stunning 1080p resolution, providing sharp visuals and vibrant colors that enhance your viewing experience, allowing you to relive your memories in breathtaking detail.</p>",
+            "content": "<p><strong>Question 1:</strong> What types of video and audio formats can I upload to the Chamber?<br/><strong>Answer 1:</strong> The Memory Chamber supports MP4 video and MP3 audio formats, allowing you to easily personalize your display with your favorite media.<br/><br/><strong>Question 2:</strong> How do I upload videos and audio to the Chamber?<br/><strong>Answer 2:</strong> Uploading your selected media files is simple and user-friendly. Just follow the intuitive controls to transfer your video and audio files onto the device, and enjoy your customized display.<br/><br/><strong>Question 3:</strong> What is the resolution of the display, and how does it enhance viewing experience?<br/><strong>Answer 3:</strong> The display features a stunning 1080p resolution, providing sharp visuals and vibrant colors that enhance your viewing experience, allowing you to relive your memories in breathtaking detail.</p>",
             "collapsible_font_size": 16,
             "coll_heading_color": "#000000",
             "coll_heading_highlighted_color": "#000000",
@@ -562,7 +562,7 @@
           "settings": {
             "row_heading": "<p>Impressive Clarity and Detail</p>",
             "row_text": "<p>Brought videos and audio to life vividly, creating breathtaking experiences.</p>",
-            "percentage": 79,
+            "percentage": 94,
             "row_content_alignment": "left",
             "block_heading_size": 20,
             "block_body_size": 14,
