@@ -667,7 +667,7 @@
       "name": "Section border",
       "settings": {
         "shape": "curved",
-        "border_size": "90",
+        "border_size": "120",
         "flip_horizontal": true,
         "flip_vertical": true,
         "shape_color": "base-accent-2",
@@ -676,6 +676,103 @@
         "background_color": "base-accent-1",
         "padding_top": 10,
         "padding_bottom": 10
+      }
+    },
+    "comparison_table_e7Viz3": {
+      "type": "comparison-table",
+      "blocks": {
+        "row_rAqnef": {
+          "type": "row",
+          "settings": {
+            "benefit": "3D Design Innovation",
+            "us": true,
+            "others": false,
+            "feature_text_color": "#383838",
+            "heading_highlighted_color": "#383838"
+          }
+        },
+        "row_K49R8x": {
+          "type": "row",
+          "settings": {
+            "benefit": "High-Quality Crystal",
+            "us": true,
+            "others": false,
+            "feature_text_color": "#383838",
+            "heading_highlighted_color": "#383838"
+          }
+        },
+        "row_Apt7gq": {
+          "type": "row",
+          "settings": {
+            "benefit": "Effortless Customization",
+            "us": true,
+            "others": false,
+            "feature_text_color": "#383838",
+            "heading_highlighted_color": "#383838"
+          }
+        },
+        "row_KY9dc3": {
+          "type": "row",
+          "settings": {
+            "benefit": "Vivid HD Display",
+            "us": true,
+            "others": false,
+            "feature_text_color": "#383838",
+            "heading_highlighted_color": "#383838"
+          }
+        },
+        "row_kyHLbp": {
+          "type": "row",
+          "settings": {
+            "benefit": "Intuitive Controls",
+            "us": true,
+            "others": false,
+            "feature_text_color": "#383838",
+            "heading_highlighted_color": "#383838"
+          }
+        }
+      },
+      "block_order": [
+        "row_rAqnef",
+        "row_K49R8x",
+        "row_Apt7gq",
+        "row_KY9dc3",
+        "row_kyHLbp"
+      ],
+      "settings": {
+        "content_heading": "Why We Stand Out",
+        "body_content": "<p>At <strong>COCO™</strong>, we redefine how you cherish memories by combining unique artistry and cutting-edge technology into captivating visual experiences that far surpass ordinary displays. We back this innovation with exceptional service, offering easy customization, end-to-end customer support, and a straightforward satisfaction guarantee, ensuring your journey with us is as joyful as the precious moments our Orbs preserve.</p>",
+        "button_label": "Shop Now",
+        "link": "shopify://products/memorable-moments-crystal-sphere™",
+        "us_label": "",
+        "other_brands_label": "Others",
+        "content_alignment": "center",
+        "layout_desktop": "table_second",
+        "layout_mobile": "table_second",
+        "heading_size": 35,
+        "heading_mob_size": 25,
+        "body_size": 16,
+        "logo_width": 90,
+        "mobile_logo_width": 60,
+        "benefits_desktop_size": 16,
+        "benefits_mobile_size": 14,
+        "bold_features_text": false,
+        "heading_color": "#000000",
+        "bolded_heading_color": "#000000",
+        "heading_use_gradient": false,
+        "heading_gradient_color": "",
+        "body_color": "#757575",
+        "bolded_body_color": "#757575",
+        "table_border_color": "#d6d6d6",
+        "features_background_color": "#eaeaea",
+        "self_cells_background_color": "accent-1",
+        "icon_cells_background_color": "#eaeaea",
+        "cell_headers_text_color": "#1e1e1e",
+        "checkmark_color": "#4bb82c",
+        "x_color": "#da6262",
+        "color_scheme": "accent-1",
+        "section_padding_top_desktop": 40,
+        "section_padding_bottom_desktop": 40
       }
     },
     "image_with_text_CNeiLf": {
@@ -941,6 +1038,7 @@
     "borders_8QNDNC",
     "testimonials_mpJecJ",
     "borders_ibbN7Q",
+    "comparison_table_e7Viz3",
     "image_with_text_CNeiLf",
     "feature_icons_faNtcR",
     "borders_RFA3ND",
