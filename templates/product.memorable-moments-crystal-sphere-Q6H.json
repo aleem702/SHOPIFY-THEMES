@@ -28,7 +28,7 @@
         "rating_HWTnKx": {
           "type": "rating",
           "settings": {
-            "rating_text": "<p>Excellent {insert star rating} | {insert number} Customers</p>",
+            "rating_text": "<p>Excellent 4.8 | 8732 Customers</p>",
             "product_rating": 4.8,
             "rating_alignment": "flex-start",
             "rating_starts_size": 18,
