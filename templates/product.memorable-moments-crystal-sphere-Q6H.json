@@ -365,6 +365,65 @@
         "padding_bottom": 8
       }
     },
+    "borders_gExFpB": {
+      "type": "borders",
+      "name": "Section border",
+      "settings": {
+        "shape": "curved",
+        "border_size": "60",
+        "flip_horizontal": true,
+        "flip_vertical": false,
+        "shape_color": "base-accent-2",
+        "enable_custom_shape_color": false,
+        "custom_shape_color": "",
+        "background_color": "base-accent-1",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "image_with_text_HYQqPf": {
+      "type": "image-with-text",
+      "settings": {
+        "image": "shopify://shop_images/b78a0fef8b3ad45ac376_Gemini_Generated_Image_s4grbms4grbms4gr.png",
+        "defer_loading_image": true,
+        "heading": "Cherish Every Moment",
+        "text": "<p></p><p>Preserve your most treasured memories in a unique and heartfelt way. This beautiful ornament captures the essence of your special bonds, bringing warmth and joy to your holiday season.<br/><br/>✔ Heartwarming keepsakes<br/><br/>✔ Personalized with love<br/><br/>✔ Effortless customization</p>",
+        "button_text": "",
+        "button_link": "",
+        "layout": "image_first",
+        "height": "adapt",
+        "desktop_content_alignment": "left",
+        "desktop_image_width": "medium",
+        "desktop_font_size": 35,
+        "mobile_font_size": 25,
+        "font_size": 15,
+        "heading_color": "#000000",
+        "heading_highlighted_color": "#000000",
+        "body_color": "#000000",
+        "body_highlighted_color": "#000000",
+        "heading_use_gradient": false,
+        "heading_gradient_color": "",
+        "section_color_scheme": "accent-2",
+        "padding_top": 0,
+        "padding_bottom": 12
+      }
+    },
+    "borders_ykft3g": {
+      "type": "borders",
+      "name": "Section border",
+      "settings": {
+        "shape": "curved",
+        "border_size": "60",
+        "flip_horizontal": false,
+        "flip_vertical": true,
+        "shape_color": "base-accent-2",
+        "enable_custom_shape_color": false,
+        "custom_shape_color": "",
+        "background_color": "base-accent-1",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
     "feature_icons_DUbgp7": {
       "type": "feature-icons",
       "blocks": {
@@ -878,7 +937,7 @@
       "type": "borders",
       "settings": {
         "shape": "curved",
-        "border_size": "60",
+        "border_size": "90",
         "flip_horizontal": true,
         "flip_vertical": true,
         "shape_color": "base-accent-1",
@@ -1000,6 +1059,9 @@
   "order": [
     "main",
     "horizontal_scrolling_text_mgft6H",
+    "borders_gExFpB",
+    "image_with_text_HYQqPf",
+    "borders_ykft3g",
     "feature_icons_DUbgp7",
     "borders_3WVyHf",
     "rich_text_rPfaL7",
