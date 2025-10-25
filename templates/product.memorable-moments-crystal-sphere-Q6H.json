@@ -753,15 +753,15 @@
         "padding_bottom": 10
       }
     },
-    "testimonials_2_nHX7mT": {
+    "testimonials_mpJecJ": {
       "type": "testimonials",
       "blocks": {
-        "slide_AAdf8g": {
+        "slide_BNgdw3": {
           "type": "slide",
           "settings": {
-            "review_heading": "Insert review title here",
-            "review_text": "Insert review text here",
-            "review_name": "Insert review author name here",
+            "review_heading": "Beyond Perfect - A Gift That Touches the Heart!",
+            "review_text": "I bought this Memory Chamber for my mom, filled with old family videos. She cried happy tears! The video quality is surprisingly good, and it's become the centerpiece of her living room. Such a unique and cherished gift.",
+            "review_name": "Sarah M",
             "num_stars": 5,
             "review_star_size": 20,
             "review_slide_heading_size": 20,
@@ -773,12 +773,12 @@
             "author_name_color": "#000000"
           }
         },
-        "slide_EWrtgY": {
+        "slide_V6mQMb": {
           "type": "slide",
           "settings": {
-            "review_heading": "Insert review title here",
-            "review_text": "Insert review text here",
-            "review_name": "Insert review author name here",
+            "review_heading": "Didn't believe the hype... until i bought it!",
+            "review_text": "I was a bit worried about the tech, but uploading photos and videos was incredibly straightforward. The display is bright and clear, making our family vacation memories truly pop. It feels very well-made and looks fantastic.",
+            "review_name": "David P",
             "num_stars": 5,
             "review_star_size": 20,
             "review_slide_heading_size": 20,
@@ -790,12 +790,12 @@
             "author_name_color": "#000000"
           }
         },
-        "slide_LJQ46H": {
+        "slide_ipd6Kq": {
           "type": "slide",
           "settings": {
-            "review_heading": "Insert review title here",
-            "review_text": "Insert review text here",
-            "review_name": "Insert review author name here",
+            "review_heading": "A Magical Way to Relive Our Best Moments",
+            "review_text": "This Memory Chamber is exactly what I was looking for! It's so much better than just a static photo frame. Having our favorite clips play on loop is a constant source of joy and conversation when guests are over. Highly recommend!",
+            "review_name": "Emily R",
             "num_stars": 5,
             "review_star_size": 20,
             "review_slide_heading_size": 20,
@@ -807,12 +807,12 @@
             "author_name_color": "#000000"
           }
         },
-        "slide_7jPyzQ": {
+        "slide_XrGdxg": {
           "type": "slide",
           "settings": {
-            "review_heading": "Insert review title here",
-            "review_text": "Insert review text here",
-            "review_name": "Insert review author name here",
+            "review_heading": "High Quality and Versatile Display!",
+            "review_text": "Initially bought one for Christmas, but it's so lovely I keep it out all year. The build quality feels solid, and the ability to easily swap out videos means it never gets old. Thinking of getting another one as a gift!",
+            "review_name": "James T",
             "num_stars": 5,
             "review_star_size": 20,
             "review_slide_heading_size": 20,
@@ -826,10 +826,10 @@
         }
       },
       "block_order": [
-        "slide_AAdf8g",
-        "slide_EWrtgY",
-        "slide_LJQ46H",
-        "slide_7jPyzQ"
+        "slide_BNgdw3",
+        "slide_V6mQMb",
+        "slide_ipd6Kq",
+        "slide_XrGdxg"
       ],
       "settings": {
         "section_heading": "What Our Customers Say",
@@ -837,8 +837,8 @@
         "overall_rating_value": 4.8,
         "heading_font_size": 35,
         "mobile_heading_font_size": 25,
-        "star_size": 25,
-        "rating_font_size": 17,
+        "star_size": 23,
+        "rating_font_size": 16,
         "sliders_per_view": 3,
         "show_navigation_buttons": true,
         "slide_box_shadow": true,
@@ -850,8 +850,8 @@
         "heading_use_gradient": false,
         "heading_gradient_color": "",
         "color_scheme": "accent-1",
-        "section_padding_top": 24,
-        "section_padding_bottom": 24
+        "section_padding_top": 34,
+        "section_padding_bottom": 58
       }
     },
     "image_with_text_CNeiLf": {
@@ -1015,7 +1015,7 @@
     "borders_GM7XjR",
     "feature_icons_FxKBiq",
     "borders_BntR6j",
-    "testimonials_2_nHX7mT",
+    "testimonials_mpJecJ",
     "image_with_text_CNeiLf",
     "borders_RFA3ND",
     "collapsible_content_Nf9Rhk"
