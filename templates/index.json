@@ -241,7 +241,7 @@
       "type": "borders",
       "settings": {
         "shape": "curved",
-        "border_size": "60",
+        "border_size": "90",
         "flip_horizontal": false,
         "flip_vertical": true,
         "shape_color": "base-accent-2",
@@ -496,7 +496,7 @@
       "type": "borders",
       "settings": {
         "shape": "curved",
-        "border_size": "90",
+        "border_size": "60",
         "flip_horizontal": true,
         "flip_vertical": false,
         "shape_color": "base-accent-2",
@@ -646,11 +646,113 @@
         "padding_bottom": 12
       }
     },
+    "feature_icons_UgfbPN": {
+      "type": "feature-icons",
+      "blocks": {
+        "column_CNALqq": {
+          "type": "column",
+          "settings": {
+            "icon": "",
+            "custom_icon_image": "shopify://shop_images/icon_worldwide_shipping.webp",
+            "title": "",
+            "text": "<p>Worldwide Shipping</p><p></p>",
+            "custom_icon_size": 70,
+            "icon_heading_font_size": 24,
+            "column_text_size": 16,
+            "custom_icon_color": "#000000",
+            "icon_heading_color": "#000000",
+            "icon_bolded_heading_color": "#000000",
+            "column_text_color": "#000000",
+            "column_text_highlighted_color": "#000000"
+          }
+        },
+        "column_GWMYyE": {
+          "type": "column",
+          "settings": {
+            "icon": "",
+            "custom_icon_image": "shopify://shop_images/icon_24_7_support.webp",
+            "title": "",
+            "text": "<p>24/7 Support</p><p></p>",
+            "custom_icon_size": 70,
+            "icon_heading_font_size": 24,
+            "column_text_size": 16,
+            "custom_icon_color": "#000000",
+            "icon_heading_color": "#000000",
+            "icon_bolded_heading_color": "#000000",
+            "column_text_color": "#000000",
+            "column_text_highlighted_color": "#000000"
+          }
+        },
+        "column_pT8C4f": {
+          "type": "column",
+          "settings": {
+            "icon": "",
+            "custom_icon_image": "shopify://shop_images/icon_verified_quality.webp",
+            "title": "",
+            "text": "<p>Verified Quality Only</p><p></p>",
+            "custom_icon_size": 70,
+            "icon_heading_font_size": 24,
+            "column_text_size": 16,
+            "custom_icon_color": "#000000",
+            "icon_heading_color": "#000000",
+            "icon_bolded_heading_color": "#000000",
+            "column_text_color": "#000000",
+            "column_text_highlighted_color": "#000000"
+          }
+        },
+        "column_7AxePf": {
+          "type": "column",
+          "settings": {
+            "icon": "",
+            "custom_icon_image": "shopify://shop_images/icon_free_returns.webp",
+            "title": "",
+            "text": "<p>Hassle-free Returns</p><p></p>",
+            "custom_icon_size": 70,
+            "icon_heading_font_size": 24,
+            "column_text_size": 16,
+            "custom_icon_color": "#000000",
+            "icon_heading_color": "#000000",
+            "icon_bolded_heading_color": "#000000",
+            "column_text_color": "#000000",
+            "column_text_highlighted_color": "#000000"
+          }
+        }
+      },
+      "block_order": [
+        "column_CNALqq",
+        "column_GWMYyE",
+        "column_pT8C4f",
+        "column_7AxePf"
+      ],
+      "settings": {
+        "title": "",
+        "text": "",
+        "heading_size": 40,
+        "heading_mob_size": 28,
+        "body_size": 16,
+        "columns_desktop": 4,
+        "padding_horizontal_desktop": 50,
+        "columns_mobile": "2",
+        "icon_size": "small",
+        "swipe_on_mobile": false,
+        "heading_color": "#000000",
+        "bolded_heading_color": "#000000",
+        "heading_use_gradient": false,
+        "heading_gradient_color": "",
+        "body_color": "#000000",
+        "bolded_body_color": "#000000",
+        "background_style": "none",
+        "card_color_scheme": "inverse",
+        "color_scheme": "accent-1",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
     "borders_FQhyAq": {
       "type": "borders",
       "settings": {
         "shape": "curved",
-        "border_size": "90",
+        "border_size": "60",
         "flip_horizontal": true,
         "flip_vertical": false,
         "shape_color": "base-accent-2",
@@ -811,6 +913,7 @@
     "comparison_table_AfbEir",
     "borders_RPB7a9",
     "image_with_text_HFVmpp",
+    "feature_icons_UgfbPN",
     "borders_FQhyAq",
     "collapsible_content_YWm968",
     "borders_qgCCKj",

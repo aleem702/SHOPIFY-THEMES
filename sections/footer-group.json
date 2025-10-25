@@ -11,6 +11,22 @@
   "name": "t:sections.footer.name",
   "type": "footer",
   "sections": {
+    "borders_grReki": {
+      "type": "borders",
+      "name": "Section border",
+      "settings": {
+        "shape": "curved",
+        "border_size": "60",
+        "flip_horizontal": true,
+        "flip_vertical": false,
+        "shape_color": "base-accent-2",
+        "enable_custom_shape_color": false,
+        "custom_shape_color": "",
+        "background_color": "base-accent-1",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -50,6 +66,7 @@
     }
   },
   "order": [
+    "borders_grReki",
     "footer"
   ]
 }
