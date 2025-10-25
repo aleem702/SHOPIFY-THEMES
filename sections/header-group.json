@@ -1,1 +1,60 @@
-{"name":"t:sections.header.name","type":"header","sections":{"announcement-bar":{"type":"announcement-bar","blocks":{"announcement_p7FBAa":{"type":"announcement","settings":{"text":"<strong>100K+ Orders Celebration - 50% OFF!<\/strong>","link":"","text_alignment":"center","desktop_font_size":16,"mobile_font_size":16,"bold_text":false,"text_color":"#ffffff","bolded_text_color":"#ffffff"}}},"block_order":["announcement_p7FBAa"],"settings":{"background_color":"#c62042","padding_top":10,"padding_bottom":10}},"header":{"type":"header","settings":{"sticky_header_type":"reduce-logo-size","show_line_separator":true,"remove_search":true,"logo_position":"middle-center","menu":"main-menu","secondary_menu":"","mobile_logo_position":"center","color_scheme":"accent-2","padding_top":0,"padding_bottom":0}}},"order":["announcement-bar","header"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_p7FBAa": {
+          "type": "announcement",
+          "settings": {
+            "text": "<strong>80K+ Orders Celebration - 50% OFF!</strong>",
+            "link": "",
+            "text_alignment": "center",
+            "desktop_font_size": 16,
+            "mobile_font_size": 16,
+            "bold_text": false,
+            "text_color": "#ffffff",
+            "bolded_text_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "announcement_p7FBAa"
+      ],
+      "settings": {
+        "background_color": "#c62042",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "sticky_header_type": "reduce-logo-size",
+        "show_line_separator": true,
+        "remove_search": true,
+        "logo_position": "middle-center",
+        "menu": "main-menu",
+        "secondary_menu": "",
+        "mobile_logo_position": "center",
+        "color_scheme": "accent-2",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}
