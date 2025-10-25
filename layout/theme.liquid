@@ -340,10 +340,6 @@
     {% if settings.fav_collection == blank or settings.fav_collection.size < 50 %}
     {% endif %}
 
-    {% if settings.fav_collection == blank or settings.fav_collection.size < 50 %}
-      {% render 'cart-drawer-mini-2' %}
-    {% endif %}
-
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
     {%- endif -%}
