@@ -106,20 +106,6 @@
             "padding_bottom": 0
           }
         },
-        "44f9cdc2-f4bf-466e-87d5-fb765ad4864a": {
-          "type": "variant_picker",
-          "settings": {
-            "enable_color_swatches": true,
-            "picker_type": "button",
-            "custom_swatch_option_name": "Color",
-            "color_swatch_type": "image",
-            "swatch_size": "5rem",
-            "swatch_type": "circle",
-            "variants_custom_color": "#000000",
-            "padding_top": 0,
-            "padding_bottom": 0
-          }
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -197,7 +183,7 @@
           "type": "collapsible_tab",
           "settings": {
             "heading": "Description",
-            "content": "<p>Transform your cherished moments into breathtaking 3D displays with this exquisite crystal sphere. A perfect blend of artistry and technology, it immerses viewers in vivid memories captured in stunning detail.<ul><li>Personalize display with videos and audio</li><li>Experience memories in stunning 1080p clarity</li><li>User-friendly interface for easy navigation</li><li>Unique artistic design enhances any decor</li></ul></p>",
+            "content": "<p>Transform your cherished moments into breathtaking 3D displays with this exquisite crystal sphere. A perfect blend of artistry and technology, it immerses viewers in vivid memories captured in stunning detail.</p><ul><li>Personalize display with videos and audio</li><li>Experience memories in stunning 1080p clarity</li><li>User-friendly interface for easy navigation</li><li>Unique artistic design enhances any decor</li></ul><p></p>",
             "collapsible_font_size": 16,
             "coll_heading_color": "#000000",
             "coll_heading_highlighted_color": "#000000",
@@ -295,7 +281,6 @@
         "price",
         "text_KVYqTW",
         "bullet-point-benefits",
-        "44f9cdc2-f4bf-466e-87d5-fb765ad4864a",
         "buy_buttons",
         "inventory_ePVkFn",
         "text_QwxdBm",
