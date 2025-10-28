@@ -314,7 +314,7 @@
         "image_zoom": "none",
         "enable_video_looping": true,
         "media_badge_position": "top-right",
-        "media_badge_size": "medium",
+        "media_badge_size": "small",
         "section_color_scheme": "accent-1",
         "padding_top": 12,
         "padding_bottom": 0
