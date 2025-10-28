@@ -109,8 +109,8 @@
         "44f9cdc2-f4bf-466e-87d5-fb765ad4864a": {
           "type": "variant_picker",
           "settings": {
-            "enable_color_swatches": false,
-            "picker_type": "dropdown",
+            "enable_color_swatches": true,
+            "picker_type": "button",
             "custom_swatch_option_name": "Color",
             "color_swatch_type": "image",
             "swatch_size": "5rem",
