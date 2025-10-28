@@ -106,20 +106,6 @@
             "padding_bottom": 0
           }
         },
-        "44f9cdc2-f4bf-466e-87d5-fb765ad4864a": {
-          "type": "variant_picker",
-          "settings": {
-            "enable_color_swatches": true,
-            "picker_type": "dropdown",
-            "custom_swatch_option_name": "Color",
-            "color_swatch_type": "image",
-            "swatch_size": "5rem",
-            "swatch_type": "circle",
-            "variants_custom_color": "#000000",
-            "padding_top": 0,
-            "padding_bottom": 0
-          }
-        },
         "buy_buttons": {
           "type": "buy_buttons",
           "settings": {
@@ -289,7 +275,6 @@
         "price",
         "text_KVYqTW",
         "bullet-point-benefits",
-        "44f9cdc2-f4bf-466e-87d5-fb765ad4864a",
         "buy_buttons",
         "inventory_ePVkFn",
         "estimated_arrival_date",
