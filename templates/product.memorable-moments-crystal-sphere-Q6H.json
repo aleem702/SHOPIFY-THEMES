@@ -112,7 +112,7 @@
             "enable_color_swatches": true,
             "picker_type": "button",
             "custom_swatch_option_name": "",
-            "color_swatch_type": "image",
+            "color_swatch_type": "color",
             "swatch_size": "5rem",
             "swatch_type": "circle",
             "variants_custom_color": "#000000",
