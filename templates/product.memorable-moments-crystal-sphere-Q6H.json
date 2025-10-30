@@ -40,21 +40,21 @@
             "padding_bottom": 0
           }
         },
+        "text_teQqC4": {
+          "type": "text",
+          "settings": {
+            "text": "Free Shipping",
+            "font_size": 16,
+            "padding_top": 0,
+            "padding_bottom": 0
+          }
+        },
         "description": {
           "type": "description",
           "settings": {
             "show_description": false,
             "des_color": "#000000",
             "bolded_des_color": "#000000",
-            "padding_top": 0,
-            "padding_bottom": 0
-          }
-        },
-        "text_ALmAKK": {
-          "type": "text",
-          "settings": {
-            "text": "NEW: Experience Immersive Memories in 3D",
-            "font_size": 12,
             "padding_top": 0,
             "padding_bottom": 0
           }
@@ -284,8 +284,8 @@
       "block_order": [
         "title",
         "rating_HWTnKx",
+        "text_teQqC4",
         "description",
-        "text_ALmAKK",
         "price",
         "text_KVYqTW",
         "bullet-point-benefits",
