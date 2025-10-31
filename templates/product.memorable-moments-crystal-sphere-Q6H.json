@@ -279,6 +279,10 @@
             "padding_top": 0,
             "padding_bottom": 0
           }
+        },
+        "bundler_bundler_target_element_WnBejG": {
+          "type": "shopify://apps/bundler/blocks/bundler-target-element/7a6ae1b8-3b16-449b-8429-8bb89a62c664",
+          "settings": {}
         }
       },
       "block_order": [
@@ -298,7 +302,8 @@
         "collapsible_tab_KnRaMB",
         "collapsible_tab_r4cHmp",
         "reviews_NM8tEB",
-        "sticky_atc_Uaw4AC"
+        "sticky_atc_Uaw4AC",
+        "bundler_bundler_target_element_WnBejG"
       ],
       "settings": {
         "enable_sticky_info": true,
