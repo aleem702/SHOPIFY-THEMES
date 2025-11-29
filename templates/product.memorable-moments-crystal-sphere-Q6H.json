@@ -150,7 +150,7 @@
         "estimated_arrival_date": {
           "type": "estimated_arrival_date",
           "settings": {
-            "custom_text": "<p>Arrives in 5 days, if you order now</p>",
+            "custom_text": "<p>Arrives in 5-12 days, if you order now</p>",
             "num_days_for_earliest_arrival": 5,
             "num_days_for_latest_arrival": 14,
             "date_format": "monthName_dayNumber",
