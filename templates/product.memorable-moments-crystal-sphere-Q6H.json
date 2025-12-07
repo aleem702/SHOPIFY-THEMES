@@ -667,6 +667,55 @@
         "section_padding_bottom": 58
       }
     },
+    "borders_Y3GhxV": {
+      "type": "borders",
+      "name": "Section border",
+      "settings": {
+        "shape": "curved",
+        "border_size": "90",
+        "flip_horizontal": true,
+        "flip_vertical": true,
+        "shape_color": "base-accent-2",
+        "enable_custom_shape_color": false,
+        "custom_shape_color": "",
+        "background_color": "base-accent-1",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
+    "17651269705c655790": {
+      "type": "apps",
+      "blocks": {
+        "ali_reviews_widget_box_LHjeGk": {
+          "type": "shopify://apps/ali-reviews/blocks/widget-box/bf2eea72-0400-4db1-8908-44b7418f9a88",
+          "settings": {
+            "product": "memorable-moments-crystal-sphere™"
+          }
+        }
+      },
+      "block_order": [
+        "ali_reviews_widget_box_LHjeGk"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "borders_4pxMzG": {
+      "type": "borders",
+      "name": "Section border",
+      "settings": {
+        "shape": "curved",
+        "border_size": "90",
+        "flip_horizontal": true,
+        "flip_vertical": false,
+        "shape_color": "base-accent-2",
+        "enable_custom_shape_color": false,
+        "custom_shape_color": "",
+        "background_color": "base-accent-1",
+        "padding_top": 10,
+        "padding_bottom": 10
+      }
+    },
     "borders_ibbN7Q": {
       "type": "borders",
       "name": "Section border",
@@ -1031,19 +1080,8 @@
         "padding_bottom": 40
       }
     },
-    "17651269705c655790": {
+    "1765127727cefd377b": {
       "type": "apps",
-      "blocks": {
-        "ali_reviews_widget_box_LHjeGk": {
-          "type": "shopify://apps/ali-reviews/blocks/widget-box/bf2eea72-0400-4db1-8908-44b7418f9a88",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "ali_reviews_widget_box_LHjeGk"
-      ],
       "settings": {
         "include_margins": true
       }
@@ -1059,12 +1097,15 @@
     "rich_text_rPfaL7",
     "borders_8QNDNC",
     "testimonials_mpJecJ",
+    "borders_Y3GhxV",
     "17651269705c655790",
+    "borders_4pxMzG",
     "borders_ibbN7Q",
     "comparison_table_e7Viz3",
     "image_with_text_CNeiLf",
     "feature_icons_faNtcR",
     "borders_RFA3ND",
-    "collapsible_content_Nf9Rhk"
+    "collapsible_content_Nf9Rhk",
+    "1765127727cefd377b"
   ]
 }
