@@ -1030,6 +1030,23 @@
         "padding_top": 40,
         "padding_bottom": 40
       }
+    },
+    "17651269705c655790": {
+      "type": "apps",
+      "blocks": {
+        "ali_reviews_widget_box_LHjeGk": {
+          "type": "shopify://apps/ali-reviews/blocks/widget-box/bf2eea72-0400-4db1-8908-44b7418f9a88",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "ali_reviews_widget_box_LHjeGk"
+      ],
+      "settings": {
+        "include_margins": true
+      }
     }
   },
   "order": [
@@ -1042,6 +1059,7 @@
     "rich_text_rPfaL7",
     "borders_8QNDNC",
     "testimonials_mpJecJ",
+    "17651269705c655790",
     "borders_ibbN7Q",
     "comparison_table_e7Viz3",
     "image_with_text_CNeiLf",
